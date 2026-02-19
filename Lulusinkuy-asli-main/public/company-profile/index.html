@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kantor Hukum WAR - Pengacara & Konsultan Hukum Semarang</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Konfigurasi Kustom -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            300: '#EBC775',
+                            400: '#D4AF37', 
+                            500: '#C5A059', 
+                            600: '#997B36',
+                        },
+                        jet: '#0F1115', // Base background
+                        navy: '#13151A', // Secondary background
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Global Styles */
+        body {
+            background-color: #0F1115;
+            color: #E2E8F0;
+            overflow-x: hidden;
+        }
+
+        /* Gold Text Gradient Effect */
+        .text-gold-gradient {
+            background: linear-gradient(to right, #EBC775, #C5A059, #F3E5AB, #C5A059);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 8s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        /* Glassmorphism Elements */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .glass-card {
+            background: rgba(19, 21, 26, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(197, 160, 89, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.6);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* ANIMATION SYSTEM (ENTRANCE & EXIT) */
+        
+        /* Default State (Hidden/Out) */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(60px) scale(0.95); /* Reduced distance for mobile smoothness */
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .reveal-fade {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        /* Active State (Visible/In) */
+        .reveal-up.active, 
+        .reveal-fade.active,
+        .reveal-left.active,
+        .reveal-right.active {
+            opacity: 1;
+            transform: translate(0) scale(1);
+        }
+
+        /* Staggered Delays for Children */
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+
+        /* Ambient Light */
+        .glow-spot {
+            position: absolute;
+            background: radial-gradient(circle, rgba(197, 160, 89, 0.15) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(40px);
+        }
+
+        /* BATIK & NEW CARD STYLES */
+        .batik-overlay {
+            background-image: url("https://www.transparenttextures.com/patterns/batik-rampuk.png"); 
+            opacity: 0.08; 
+            mix-blend-mode: overlay;
+        }
+
+        .batik-card-texture {
+            background-image: url("https://www.transparenttextures.com/patterns/batik-ambarukmo.png");
+            opacity: 0.05;
+            mix-blend-mode: soft-light;
+        }
+
+        .card-hover-effect {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, #1A1D23, #15171C);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .card-hover-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(197, 160, 89, 0.1), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 0;
+        }
+
+        .card-hover-effect:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: rgba(197, 160, 89, 0.5);
+            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .card-hover-effect:hover::before {
+            opacity: 1;
+        }
+
+        .card-hover-effect:hover .batik-card-texture {
+            opacity: 0.15;
+            transform: scale(1.1);
+            transition: all 0.5s ease;
+        }
+
+        .card-hover-effect:hover .card-icon {
+            transform: scale(1.1) rotate(5deg);
+            color: #C5A059;
+            background: rgba(197, 160, 89, 0.1);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-gold-500 selection:text-white">
+
+    <!-- NAVBAR -->
+    <nav class="fixed w-full z-50 transition-all duration-500" id="navbar">
+        <div class="absolute inset-0 bg-jet/80 backdrop-blur-md opacity-0 transition-opacity duration-300 border-b border-white/5" id="navbar-bg"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex items-center justify-between h-20 md:h-24">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-3 md:gap-4 cursor-pointer group">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gold-400 blur-md opacity-20 group-hover:opacity-40 transition-opacity rounded-full"></div>
+                        <img src="https://i.postimg.cc/8j8LnVX7/image.png" alt="Logo WAR" class="h-10 md:h-14 w-auto relative z-10 p-1 bg-white/95 rounded-full shadow-lg border border-gold-500/30"> 
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-serif font-bold text-xl md:text-2xl tracking-widest text-white group-hover:text-gold-300 transition-colors">WAR</span>
+                        <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-gold-500 to-transparent my-0.5"></div>
+                        <span class="text-[8px] md:text-[9px] uppercase tracking-[0.3em] text-gray-400 group-hover:text-white transition-colors">Law Office</span>
+                    </div>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-10">
+                    <a href="#home" class="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-gold-400 transition-colors py-2 border-b-2 border-transparent hover:border-gold-500">Beranda</a>
+                    <a href="#about" class="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-gold-400 transition-colors py-2 border-b-2 border-transparent hover:border-gold-500">Tentang Kami</a>
+                    <a href="#services" class="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-gold-400 transition-colors py-2 border-b-2 border-transparent hover:border-gold-500">Layanan</a>
+                    <a href="#gallery" class="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-gold-400 transition-colors py-2 border-b-2 border-transparent hover:border-gold-500">Galeri</a>
+                    <a href="#faq" class="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-gold-400 transition-colors py-2 border-b-2 border-transparent hover:border-gold-500">FAQ</a>
+                    
+                    <!-- CTA Button -->
+                    <a href="https://wa.me/6281802062662" class="group relative px-7 py-3 overflow-hidden rounded-full bg-transparent border border-gold-500 text-gold-400 transition-all duration-300 hover:text-jet hover:shadow-[0_0_20px_rgba(197,160,89,0.4)]">
+                        <span class="relative z-10 text-xs font-bold uppercase tracking-widest">Konsultasi</span>
+                        <div class="absolute inset-0 bg-gold-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 ease-out"></div>
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="-mr-2 flex md:hidden">
+                    <button onclick="toggleMenu()" class="text-gold-300 hover:text-white p-2 transition-colors">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="hidden fixed inset-0 z-40 bg-jet/98 backdrop-blur-xl md:hidden flex-col justify-center items-center space-y-8" id="mobile-menu">
+            <button onclick="toggleMenu()" class="absolute top-8 right-8 text-gray-400 hover:text-gold-500 transition-colors">
+                <i class="fas fa-times text-3xl"></i>
+            </button>
+            <a href="#home" onclick="toggleMenu()" class="text-2xl font-serif text-white hover:text-gold-400 tracking-wider">Beranda</a>
+            <a href="#about" onclick="toggleMenu()" class="text-2xl font-serif text-white hover:text-gold-400 tracking-wider">Tentang Kami</a>
+            <a href="#services" onclick="toggleMenu()" class="text-2xl font-serif text-white hover:text-gold-400 tracking-wider">Layanan</a>
+            <a href="#gallery" onclick="toggleMenu()" class="text-2xl font-serif text-white hover:text-gold-400 tracking-wider">Galeri</a>
+            <a href="https://wa.me/6281802062662" class="px-10 py-4 bg-gradient-to-r from-gold-600 to-gold-400 text-jet font-bold tracking-widest uppercase rounded-full shadow-lg">Chat WhatsApp</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background Layer -->
+        <div class="absolute inset-0 z-0">
+            <!-- Image with parallax scale effect -->
+            <img src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
+                 alt="Background Kantor Hukum" 
+                 class="w-full h-full object-cover object-center scale-105 animate-[pulse_15s_ease-in-out_infinite] opacity-60">
+            
+            <!-- Sophisticated Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-b from-jet/90 via-jet/50 to-jet z-10"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-jet/80 via-transparent to-jet/80 z-10"></div>
+        </div>
+
+        <!-- Content Layer -->
+        <div class="relative z-20 container mx-auto px-4 mt-16 md:mt-20">
+            <div class="max-w-5xl mx-auto text-center">
+                
+                <!-- Badge -->
+                <div class="reveal-up mb-6 md:mb-8 inline-flex items-center gap-3 px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-gold-500/30 bg-black/30 backdrop-blur-md mx-auto hover:border-gold-500/60 transition-colors">
+                    <i class="fas fa-star text-gold-400 text-[10px] md:text-xs"></i>
+                    <span class="text-gold-100 text-[9px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-medium">Professional Law Firm</span>
+                    <i class="fas fa-star text-gold-400 text-[10px] md:text-xs"></i>
+                </div>
+                
+                <!-- Main Headline -->
+                <h1 class="reveal-up delay-100 font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 md:mb-8 leading-[1.1] tracking-tight">
+                    <span class="block text-gray-300 text-xl sm:text-2xl md:text-4xl font-light italic mb-2 font-sans">Menegakkan</span>
+                    Kebenaran, Menjamin <br>
+                    <span class="text-gold-gradient relative inline-block mt-1">
+                        Keadilan.
+                        <!-- Underline decoration -->
+                        <svg class="absolute w-full h-2 md:h-3 -bottom-1 left-0 text-gold-500 opacity-60" viewBox="0 0 200 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.00025 6.99997C25.7501 9.99986 60.6238 5.26103 89.0002 4.49997C113.376 3.84605 130.375 5.49997 197.999 1.99996" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                    </span>
+                </h1>
+                
+                <!-- Subheadline -->
+                <p class="reveal-up delay-200 font-sans text-gray-400 text-sm sm:text-base md:text-xl mb-10 md:mb-12 max-w-2xl mx-auto font-light leading-relaxed border-l-2 border-gold-500/50 pl-4 md:pl-0 text-left md:text-center md:border-l-0">
+                    Mitra strategis untuk melindungi hak, aset, dan reputasi Anda melalui pendekatan hukum yang tegas, terukur, dan berintegritas.
+                </p>
+                
+                <!-- CTA Buttons -->
+                <div class="reveal-up delay-300 flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center w-full sm:w-auto">
+                    <a href="https://wa.me/6281802062662" class="group relative w-full sm:w-auto px-8 md:px-10 py-3 md:py-4 bg-gold-500 text-jet font-bold tracking-widest uppercase text-xs md:text-sm rounded-full hover:bg-gold-400 transition-all shadow-[0_0_20px_rgba(197,160,89,0.3)] hover:shadow-[0_0_30px_rgba(197,160,89,0.6)] text-center">
+                        <span class="flex items-center justify-center gap-2">
+                            Konsultasi Gratis <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </a>
+                    <a href="#services" class="group w-full sm:w-auto px-8 md:px-10 py-3 md:py-4 border border-white/20 text-white font-medium tracking-widest uppercase text-xs md:text-sm rounded-full hover:bg-white/5 hover:border-gold-500/50 transition-all text-center">
+                        Pelajari Layanan
+                    </a>
+                </div>
+            </div>
+
+            <!-- Stats/Trust Bar -->
+            <div class="reveal-up delay-400 mt-16 md:mt-24 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-6xl mx-auto glass-panel p-6 md:p-8 rounded-2xl">
+                <div class="text-center border-r border-white/10 last:border-0 md:last:border-r-0">
+                    <h3 class="text-gold-400 text-2xl md:text-3xl font-serif font-bold">24/7</h3>
+                    <p class="text-gray-500 text-[10px] md:text-xs uppercase tracking-wider mt-1">Layanan Darurat</p>
+                </div>
+                <div class="text-center md:border-r border-white/10 last:border-0 hidden md:block">
+                    <h3 class="text-gold-400 text-2xl md:text-3xl font-serif font-bold">Semarang</h3>
+                    <p class="text-gray-500 text-[10px] md:text-xs uppercase tracking-wider mt-1">Basis Operasional</p>
+                </div>
+                <div class="text-center border-r border-white/10 md:border-r last:border-0">
+                    <h3 class="text-gold-400 text-2xl md:text-3xl font-serif font-bold">98%</h3>
+                    <p class="text-gray-500 text-[10px] md:text-xs uppercase tracking-wider mt-1">Klien Puas</p>
+                </div>
+                <div class="text-center">
+                    <h3 class="text-gold-400 text-2xl md:text-3xl font-serif font-bold">Legal</h3>
+                    <p class="text-gray-500 text-[10px] md:text-xs uppercase tracking-wider mt-1">Izin Resmi</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 animate-float opacity-70">
+            <a href="#about" class="flex flex-col items-center gap-2 text-gold-500/60 hover:text-gold-500 transition-colors">
+                <span class="text-[9px] md:text-[10px] uppercase tracking-[0.2em]">Scroll</span>
+                <i class="fas fa-chevron-down text-lg md:text-xl"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- TENTANG KAMI -->
+    <section id="about" class="py-20 md:py-32 relative bg-jet overflow-hidden">
+        <div class="glow-spot top-20 left-0 w-[500px] h-[500px] opacity-20"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
+                
+                <!-- Text Content -->
+                <div class="order-2 lg:order-1">
+                    <div class="reveal-left">
+                        <span class="text-gold-500 text-xs font-bold tracking-[0.2em] uppercase mb-2 block">Tentang WAR</span>
+                        <h2 class="font-serif text-3xl md:text-5xl font-bold text-white mb-6 md:mb-8 leading-tight">
+                            Benteng Perlindungan <br><span class="text-gold-gradient">Hak Anda.</span>
+                        </h2>
+                    </div>
+                    
+                    <div class="reveal-up delay-100 text-gray-400 mb-6 leading-relaxed text-base md:text-lg font-light text-justify border-l border-white/10 pl-6">
+                        <p class="mb-4 md:mb-6">
+                            <strong>Kantor Hukum WAR</strong> bukan sekadar penyedia jasa hukum biasa. Kami adalah mitra strategis yang memahami bahwa di balik setiap kasus hukum, terdapat masa depan, aset, dan nama baik yang harus dijaga.
+                        </p>
+                        <p>
+                            Berbasis di Jangli, Semarang, kami menggabungkan ketajaman analisis hukum dengan strategi negosiasi persuasif. Simbol "Pilar, Tameng, dan Padi" adalah manifestasi komitmen kami: Kokoh dalam argumen, Aman dalam perlindungan, dan Solutif dalam hasil.
+                        </p>
+                    </div>
+
+                    <div class="reveal-up delay-200 mt-8 md:mt-10 flex flex-col sm:flex-row gap-4">
+                        <div class="flex items-center gap-4 bg-white/5 px-6 py-4 rounded-lg border border-white/5 w-full sm:w-auto">
+                            <i class="fas fa-balance-scale text-2xl md:text-3xl text-gold-500"></i>
+                            <div>
+                                <h4 class="text-white font-serif font-bold text-sm md:text-base">Adil</h4>
+                                <p class="text-xs text-gray-500">Tanpa Pandang Bulu</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-white/5 px-6 py-4 rounded-lg border border-white/5 w-full sm:w-auto">
+                            <i class="fas fa-gavel text-2xl md:text-3xl text-gold-500"></i>
+                            <div>
+                                <h4 class="text-white font-serif font-bold text-sm md:text-base">Tegas</h4>
+                                <p class="text-xs text-gray-500">Dalam Penindakan</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Content -->
+                <div class="order-1 lg:order-2 reveal-right relative group">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-gold-500 to-gray-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl h-[300px] md:h-[500px]">
+                        <div class="absolute inset-0 bg-gradient-to-t from-jet via-transparent to-transparent z-10 opacity-80"></div>
+                        <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1632&q=80" alt="Interior Kantor" class="w-full h-full object-cover transition-transform duration-1000 transform group-hover:scale-110">
+                        
+                        <!-- Floating Card on Image -->
+                        <div class="absolute bottom-6 left-6 right-6 md:bottom-8 md:left-8 md:right-8 z-20 glass-panel p-4 md:p-6 rounded-xl">
+                            <p class="font-serif text-white italic text-base md:text-lg">"Hukum adalah seni menebarkan keadilan."</p>
+                            <div class="mt-3 md:mt-4 flex items-center gap-2">
+                                <div class="w-6 md:w-8 h-[1px] bg-gold-500"></div>
+                                <span class="text-[10px] md:text-xs text-gold-400 uppercase tracking-widest">Filosofi Kami</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NILAI KAMI -->
+    <section class="py-20 md:py-32 bg-navy relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(#C5A059 1px, transparent 1px); background-size: 30px 30px;"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12 md:mb-20 reveal-up">
+                <span class="text-gold-500 text-xs font-bold tracking-[0.2em] uppercase">Core Values</span>
+                <h2 class="font-serif text-3xl md:text-4xl text-white mt-4">Pilar Integritas Kami</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                <!-- Card 1 -->
+                <div class="glass-card p-6 md:p-10 rounded-2xl group reveal-fade delay-100">
+                    <div class="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-gray-800 to-black rounded-xl border border-white/10 flex items-center justify-center mb-6 md:mb-8 shadow-lg group-hover:border-gold-500/50 transition-colors">
+                        <i class="fas fa-landmark text-xl md:text-2xl text-gold-400"></i>
+                    </div>
+                    <h3 class="font-serif text-xl md:text-2xl font-bold text-white mb-3 md:mb-4 group-hover:text-gold-300 transition-colors">Integritas Kokoh</h3>
+                    <p class="text-gray-400 leading-relaxed font-light text-sm">
+                        Kejujuran adalah mata uang tertinggi kami. Kami transparan dalam setiap langkah, memastikan Anda memahami posisi hukum sepenuhnya.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glass-card p-6 md:p-10 rounded-2xl group reveal-fade delay-200 transform md:-translate-y-6 border-t-4 border-t-gold-500">
+                    <div class="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-gold-500 to-gold-700 rounded-xl flex items-center justify-center mb-6 md:mb-8 shadow-lg shadow-gold-500/20">
+                        <i class="fas fa-shield-alt text-xl md:text-2xl text-white"></i>
+                    </div>
+                    <h3 class="font-serif text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Proteksi Total</h3>
+                    <p class="text-gray-300 leading-relaxed font-light text-sm">
+                        Kami tidak hanya menyelesaikan masalah, tapi mencegahnya. Pendekatan preventif kami dirancang untuk memitigasi risiko hukum.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass-card p-6 md:p-10 rounded-2xl group reveal-fade delay-300">
+                    <div class="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-gray-800 to-black rounded-xl border border-white/10 flex items-center justify-center mb-6 md:mb-8 shadow-lg group-hover:border-gold-500/50 transition-colors">
+                        <i class="fas fa-handshake text-xl md:text-2xl text-gold-400"></i>
+                    </div>
+                    <h3 class="font-serif text-xl md:text-2xl font-bold text-white mb-3 md:mb-4 group-hover:text-gold-300 transition-colors">Solusi Tuntas</h3>
+                    <p class="text-gray-400 leading-relaxed font-light text-sm">
+                        Berorientasi pada hasil nyata (Result Oriented). Kami mencari jalan keluar paling efisien, baik melalui mediasi maupun litigasi.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LAYANAN (REVAMPED WITH JAVANESE BATIK ACCENT) -->
+    <section id="services" class="py-20 md:py-32 bg-[#0B0D10] relative">
+        <!-- Background Batik Texture (Global Section) -->
+        <div class="absolute inset-0 batik-overlay z-0 pointer-events-none"></div>
+        
+        <!-- Glow Spot -->
+        <div class="glow-spot bottom-0 right-0 w-[800px] h-[800px] opacity-10"></div>
+        <div class="glow-spot top-20 left-0 w-[600px] h-[600px] opacity-5"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <!-- HEADER SECTION -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 reveal-up">
+                <div>
+                    <div class="flex items-center gap-2 mb-2">
+                        <!-- Batik accent line -->
+                        <div class="h-[2px] w-8 bg-gold-500"></div>
+                        <span class="text-gold-500 text-xs font-bold tracking-[0.2em] uppercase">Area Praktik</span>
+                    </div>
+                    <h2 class="font-serif text-3xl md:text-5xl text-white mt-4 leading-tight">
+                        Spesialisasi <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-500">Hukum Kami</span>
+                    </h2>
+                </div>
+                <div class="mt-6 md:mt-0">
+                    <a href="https://wa.me/6281802062662" class="group flex items-center gap-2 text-white border-b border-gold-500 pb-1 hover:text-gold-400 transition-colors text-xs md:text-sm tracking-widest uppercase">
+                        Lihat Semua Layanan 
+                        <i class="fas fa-arrow-right transform group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- GRID SECTION: Kartu Layanan -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <!-- Service Item 1 -->
+                <div class="card-hover-effect p-6 md:p-8 rounded-xl reveal-up delay-100 group">
+                    <div class="absolute inset-0 batik-card-texture z-0 pointer-events-none transition-transform duration-700"></div>
+                    <div class="absolute top-0 right-0 opacity-10 group-hover:opacity-30 transition-opacity w-20 h-20 md:w-24 md:h-24 pointer-events-none z-0">
+                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 0C50 27.6142 27.6142 50 0 50C27.6142 50 50 72.3858 50 100C50 72.3858 72.3858 50 100 50C72.3858 50 50 27.6142 50 0Z" fill="#C5A059"/>
+                        </svg>
+                    </div>
+
+                    <div class="relative z-10">
+                        <div class="flex items-start justify-between mb-6 md:mb-8">
+                            <div class="card-icon p-3 md:p-4 bg-white/5 rounded-lg text-gold-500 transition-all duration-500 border border-white/5 shadow-lg">
+                                <i class="fas fa-home text-xl md:text-2xl"></i>
+                            </div>
+                            <span class="text-[10px] md:text-xs text-gray-500 font-mono border border-white/10 px-2 py-1 rounded bg-black/20 backdrop-blur-sm">01</span>
+                        </div>
+                        <h3 class="font-serif text-xl md:text-2xl font-bold text-white mb-2 md:mb-3 group-hover:text-gold-400 transition-colors">Sengketa Tanah</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed mb-6 md:mb-8 border-l-2 border-white/10 pl-4 group-hover:border-gold-500/50 transition-colors relative">
+                            Pakar dalam sengketa agraria, sertifikat ganda, pembebasan lahan, dan sengketa waris aset.
+                        </p>
+                        <a href="https://wa.me/6281802062662" class="inline-flex items-center text-[10px] md:text-xs font-bold text-gold-500 uppercase tracking-widest hover:text-white transition-colors">
+                            Konsultasi <i class="fas fa-chevron-right ml-2 text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Service Item 2 -->
+                <div class="card-hover-effect p-6 md:p-8 rounded-xl reveal-up delay-200 group">
+                    <div class="absolute inset-0 batik-card-texture z-0 pointer-events-none transition-transform duration-700"></div>
+                     <div class="absolute top-0 right-0 opacity-10 group-hover:opacity-30 transition-opacity w-20 h-20 md:w-24 md:h-24 pointer-events-none z-0">
+                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 0C50 27.6142 27.6142 50 0 50C27.6142 50 50 72.3858 50 100C50 72.3858 72.3858 50 100 50C72.3858 50 50 27.6142 50 0Z" fill="#C5A059"/>
+                        </svg>
+                    </div>
+                    <div class="relative z-10">
+                        <div class="flex items-start justify-between mb-6 md:mb-8">
+                            <div class="card-icon p-3 md:p-4 bg-white/5 rounded-lg text-gold-500 transition-all duration-500 border border-white/5 shadow-lg">
+                                <i class="fas fa-gavel text-xl md:text-2xl"></i>
+                            </div>
+                            <span class="text-[10px] md:text-xs text-gray-500 font-mono border border-white/10 px-2 py-1 rounded bg-black/20 backdrop-blur-sm">02</span>
+                        </div>
+                        <h3 class="font-serif text-xl md:text-2xl font-bold text-white mb-2 md:mb-3 group-hover:text-gold-400 transition-colors">Hukum Pidana</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed mb-6 md:mb-8 border-l-2 border-white/10 pl-4 group-hover:border-gold-500/50 transition-colors">
+                            Pendampingan hukum profesional di tingkat kepolisian, kejaksaan, hingga pengadilan pidana.
+                        </p>
+                        <a href="https://wa.me/6281802062662" class="inline-flex items-center text-[10px] md:text-xs font-bold text-gold-500 uppercase tracking-widest hover:text-white transition-colors">
+                            Konsultasi <i class="fas fa-chevron-right ml-2 text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Service Item 3 -->
+                <div class="card-hover-effect p-6 md:p-8 rounded-xl reveal-up delay-300 group">
+                    <div class="absolute inset-0 batik-card-texture z-0 pointer-events-none transition-transform duration-700"></div>
+                     <div class="absolute top-0 right-0 opacity-10 group-hover:opacity-30 transition-opacity w-20 h-20 md:w-24 md:h-24 pointer-events-none z-0">
+                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 0C50 27.6142 27.6142 50 0 50C27.6142 50 50 72.3858 50 100C50 72.3858 72.3858 50 100 50C72.3858 50 50 27.6142 50 0Z" fill="#C5A059"/>
+                        </svg>
+                    </div>
+                    <div class="relative z-10">
+                        <div class="flex items-start justify-between mb-6 md:mb-8">
+                            <div class="card-icon p-3 md:p-4 bg-white/5 rounded-lg text-gold-500 transition-all duration-500 border border-white/5 shadow-lg">
+                                <i class="fas fa-file-contract text-xl md:text-2xl"></i>
+                            </div>
+                            <span class="text-[10px] md:text-xs text-gray-500 font-mono border border-white/10 px-2 py-1 rounded bg-black/20 backdrop-blur-sm">03</span>
+                        </div>
+                        <h3 class="font-serif text-xl md:text-2xl font-bold text-white mb-2 md:mb-3 group-hover:text-gold-400 transition-colors">Hukum Perdata</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed mb-6 md:mb-8 border-l-2 border-white/10 pl-4 group-hover:border-gold-500/50 transition-colors">
+                            Penyelesaian wanprestasi, utang piutang, dan Perbuatan Melawan Hukum (PMH) secara efektif.
+                        </p>
+                        <a href="https://wa.me/6281802062662" class="inline-flex items-center text-[10px] md:text-xs font-bold text-gold-500 uppercase tracking-widest hover:text-white transition-colors">
+                            Konsultasi <i class="fas fa-chevron-right ml-2 text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Service Item 4 -->
+                <div class="card-hover-effect p-6 md:p-8 rounded-xl reveal-up delay-100 group">
+                    <div class="absolute inset-0 batik-card-texture z-0 pointer-events-none transition-transform duration-700"></div>
+                     <div class="absolute top-0 right-0 opacity-10 group-hover:opacity-30 transition-opacity w-20 h-20 md:w-24 md:h-24 pointer-events-none z-0">
+                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 0C50 27.6142 27.6142 50 0 50C27.6142 50 50 72.3858 50 100C50 72.3858 72.3858 50 100 50C72.3858 50 50 27.6142 50 0Z" fill="#C5A059"/>
+                        </svg>
+                    </div>
+                    <div class="relative z-10">
+                        <div class="flex items-start justify-between mb-6 md:mb-8">
+                            <div class="card-icon p-3 md:p-4 bg-white/5 rounded-lg text-gold-500 transition-all duration-500 border border-white/5 shadow-lg">
+                                <i class="fas fa-users text-xl md:text-2xl"></i>
+                            </div>
+                            <span class="text-[10px] md:text-xs text-gray-500 font-mono border border-white/10 px-2 py-1 rounded bg-black/20 backdrop-blur-sm">04</span>
+                        </div>
+                        <h3 class="font-serif text-xl md:text-2xl font-bold text-white mb-2 md:mb-3 group-hover:text-gold-400 transition-colors">Hukum Keluarga</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed mb-6 md:mb-8 border-l-2 border-white/10 pl-4 group-hover:border-gold-500/50 transition-colors">
+                            Menangani perceraian, hak asuh anak, dan pembagian harta gono-gini dengan empatik.
+                        </p>
+                        <a href="https://wa.me/6281802062662" class="inline-flex items-center text-[10px] md:text-xs font-bold text-gold-500 uppercase tracking-widest hover:text-white transition-colors">
+                            Konsultasi <i class="fas fa-chevron-right ml-2 text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Service Item 5 -->
+                <div class="card-hover-effect p-6 md:p-8 rounded-xl reveal-up delay-200 group">
+                    <div class="absolute inset-0 batik-card-texture z-0 pointer-events-none transition-transform duration-700"></div>
+                     <div class="absolute top-0 right-0 opacity-10 group-hover:opacity-30 transition-opacity w-20 h-20 md:w-24 md:h-24 pointer-events-none z-0">
+                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 0C50 27.6142 27.6142 50 0 50C27.6142 50 50 72.3858 50 100C50 72.3858 72.3858 50 100 50C72.3858 50 50 27.6142 50 0Z" fill="#C5A059"/>
+                        </svg>
+                    </div>
+                    <div class="relative z-10">
+                        <div class="flex items-start justify-between mb-6 md:mb-8">
+                            <div class="card-icon p-3 md:p-4 bg-white/5 rounded-lg text-gold-500 transition-all duration-500 border border-white/5 shadow-lg">
+                                <i class="fas fa-building text-xl md:text-2xl"></i>
+                            </div>
+                            <span class="text-[10px] md:text-xs text-gray-500 font-mono border border-white/10 px-2 py-1 rounded bg-black/20 backdrop-blur-sm">05</span>
+                        </div>
+                        <h3 class="font-serif text-xl md:text-2xl font-bold text-white mb-2 md:mb-3 group-hover:text-gold-400 transition-colors">Korporasi</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed mb-6 md:mb-8 border-l-2 border-white/10 pl-4 group-hover:border-gold-500/50 transition-colors">
+                            Legal drafting, pendirian badan usaha, kontrak bisnis, dan litigasi komersial.
+                        </p>
+                        <a href="https://wa.me/6281802062662" class="inline-flex items-center text-[10px] md:text-xs font-bold text-gold-500 uppercase tracking-widest hover:text-white transition-colors">
+                            Konsultasi <i class="fas fa-chevron-right ml-2 text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Service Item 6 -->
+                <div class="card-hover-effect p-6 md:p-8 rounded-xl reveal-up delay-300 group">
+                    <div class="absolute inset-0 batik-card-texture z-0 pointer-events-none transition-transform duration-700"></div>
+                     <div class="absolute top-0 right-0 opacity-10 group-hover:opacity-30 transition-opacity w-20 h-20 md:w-24 md:h-24 pointer-events-none z-0">
+                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 0C50 27.6142 27.6142 50 0 50C27.6142 50 50 72.3858 50 100C50 72.3858 72.3858 50 100 50C72.3858 50 50 27.6142 50 0Z" fill="#C5A059"/>
+                        </svg>
+                    </div>
+                    <div class="relative z-10">
+                        <div class="flex items-start justify-between mb-6 md:mb-8">
+                            <div class="card-icon p-3 md:p-4 bg-white/5 rounded-lg text-gold-500 transition-all duration-500 border border-white/5 shadow-lg">
+                                <i class="fas fa-briefcase text-xl md:text-2xl"></i>
+                            </div>
+                            <span class="text-[10px] md:text-xs text-gray-500 font-mono border border-white/10 px-2 py-1 rounded bg-black/20 backdrop-blur-sm">06</span>
+                        </div>
+                        <h3 class="font-serif text-xl md:text-2xl font-bold text-white mb-2 md:mb-3 group-hover:text-gold-400 transition-colors">Ketenagakerjaan</h3>
+                        <p class="text-sm text-gray-400 leading-relaxed mb-6 md:mb-8 border-l-2 border-white/10 pl-4 group-hover:border-gold-500/50 transition-colors">
+                            Penyelesaian PHK, perselisihan hubungan industrial, dan review peraturan perusahaan.
+                        </p>
+                        <a href="https://wa.me/6281802062662" class="inline-flex items-center text-[10px] md:text-xs font-bold text-gold-500 uppercase tracking-widest hover:text-white transition-colors">
+                            Konsultasi <i class="fas fa-chevron-right ml-2 text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALERI AKTIVITAS (Mobile Optimized) -->
+    <section id="gallery" class="py-20 md:py-32 bg-jet relative border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10 md:mb-16 reveal-up">
+                <span class="text-gold-500 text-xs font-bold tracking-[0.2em] uppercase">Dokumentasi</span>
+                <h2 class="font-serif text-3xl md:text-4xl text-white mt-4">Aktivitas Profesional</h2>
+                <p class="text-gray-400 mt-4 max-w-2xl mx-auto font-light text-sm md:text-base">Transparansi kerja dan dedikasi tim kami dalam menangani setiap kasus.</p>
+            </div>
+
+            <!-- Masonry Grid Layout (Responsive) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 md:grid-rows-2 gap-4 h-auto md:h-[500px]">
+                
+                <!-- Gallery Item 1 (Large) -->
+                <div class="col-span-1 sm:col-span-2 md:row-span-2 relative group overflow-hidden rounded-xl cursor-pointer reveal-fade delay-100 h-64 sm:h-auto">
+                    <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Meeting Strategis" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-gold-500 text-[10px] uppercase tracking-widest mb-1 translate-y-0 md:translate-y-4 group-hover:translate-y-0 transition-transform duration-500">Rapat Tim</span>
+                        <h3 class="text-white font-serif text-lg md:text-xl translate-y-0 md:translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">Strategi Penanganan Kasus</h3>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 2 -->
+                <div class="col-span-1 md:row-span-1 relative group overflow-hidden rounded-xl cursor-pointer reveal-fade delay-200 h-48 sm:h-auto">
+                    <img src="https://images.unsplash.com/photo-1521791055366-0d553872125f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Salaman Klien" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <i class="fas fa-handshake text-3xl text-gold-500 transform scale-0 group-hover:scale-100 transition-transform duration-300"></i>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 3 -->
+                <div class="col-span-1 md:row-span-1 relative group overflow-hidden rounded-xl cursor-pointer reveal-fade delay-300 h-48 sm:h-auto">
+                    <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Analisis Hukum" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <i class="fas fa-search text-3xl text-gold-500 transform scale-0 group-hover:scale-100 transition-transform duration-300"></i>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 4 -->
+                <div class="col-span-1 md:row-span-1 relative group overflow-hidden rounded-xl cursor-pointer reveal-fade delay-200 h-48 sm:h-auto">
+                    <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Penandatanganan" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <i class="fas fa-file-signature text-3xl text-gold-500 transform scale-0 group-hover:scale-100 transition-transform duration-300"></i>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 5 -->
+                <div class="col-span-1 md:row-span-1 relative group overflow-hidden rounded-xl cursor-pointer reveal-fade delay-300 h-48 sm:h-auto">
+                    <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Kantor" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <i class="fas fa-building text-3xl text-gold-500 transform scale-0 group-hover:scale-100 transition-transform duration-300"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="py-20 md:py-32 bg-navy border-t border-white/5">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10 md:mb-16 reveal-up">
+                <span class="text-gold-500 text-xs font-bold tracking-[0.2em] uppercase">Informasi</span>
+                <h2 class="font-serif text-3xl text-white mt-4">Pertanyaan Umum</h2>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="group bg-white/5 rounded-xl overflow-hidden border border-white/5 transition-all hover:border-gold-500/30 reveal-up delay-100">
+                    <button class="w-full px-6 py-5 md:px-8 md:py-6 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                        <span class="font-medium text-white text-base md:text-lg font-serif">Apakah konsultasi awal dikenakan biaya?</span>
+                        <i class="fas fa-chevron-down text-gold-500 transition-transform duration-300 group-hover:translate-y-1"></i>
+                    </button>
+                    <div class="hidden px-6 pb-6 md:px-8 md:pb-8 text-gray-400 text-sm font-light leading-relaxed border-t border-white/5 pt-4">
+                        <p>Untuk konsultasi awal via WhatsApp yang bersifat umum (General Inquiry), kami tidak memungut biaya (Gratis). Ini bertujuan agar Anda bisa mendapatkan gambaran awal.</p>
+                        <br>
+                        <p>Namun, untuk bedah dokumen, analisis kasus mendalam, atau pertemuan tatap muka (Legal Opinion), akan dikenakan biaya profesional yang transparan dan disepakati di muka.</p>
+                    </div>
+                </div>
+
+                <div class="group bg-white/5 rounded-xl overflow-hidden border border-white/5 transition-all hover:border-gold-500/30 reveal-up delay-200">
+                    <button class="w-full px-6 py-5 md:px-8 md:py-6 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                        <span class="font-medium text-white text-base md:text-lg font-serif">Apakah bisa menangani kasus luar kota?</span>
+                        <i class="fas fa-chevron-down text-gold-500 transition-transform duration-300 group-hover:translate-y-1"></i>
+                    </button>
+                    <div class="hidden px-6 pb-6 md:px-8 md:pb-8 text-gray-400 text-sm font-light leading-relaxed border-t border-white/5 pt-4">
+                        Tentu. Kami memiliki izin beracara resmi di seluruh wilayah hukum Republik Indonesia. Tim kami siap melakukan perjalanan dinas untuk mendampingi kasus Anda dimanapun berada (Luar Kota/Pulau).
+                    </div>
+                </div>
+                
+                <div class="group bg-white/5 rounded-xl overflow-hidden border border-white/5 transition-all hover:border-gold-500/30 reveal-up delay-300">
+                    <button class="w-full px-6 py-5 md:px-8 md:py-6 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                        <span class="font-medium text-white text-base md:text-lg font-serif">Berapa lama proses penyelesaian?</span>
+                        <i class="fas fa-chevron-down text-gold-500 transition-transform duration-300 group-hover:translate-y-1"></i>
+                    </button>
+                    <div class="hidden px-6 pb-6 md:px-8 md:pb-8 text-gray-400 text-sm font-light leading-relaxed border-t border-white/5 pt-4">
+                        Durasi sangat bergantung pada kompleksitas kasus dan jalur hukum yang ditempuh. Jalur mediasi (Non-Litigasi) biasanya lebih cepat (1-3 bulan). Sedangkan jalur pengadilan (Litigasi) bisa memakan waktu 6 bulan atau lebih hingga putusan Inkrah.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#050608] pt-16 md:pt-24 pb-8 md:pb-10 border-t border-white/5 relative overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-gold-500/50 to-transparent"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-12 mb-12 md:mb-20">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center gap-4 mb-6 md:mb-8">
+                        <img src="https://i.postimg.cc/8j8LnVX7/image.png" alt="Logo WAR" class="h-10 md:h-12 w-auto p-1 bg-white/10 rounded-full border border-white/10">
+                        <div class="flex flex-col">
+                            <span class="font-serif font-bold text-xl md:text-2xl text-white tracking-widest">WAR</span>
+                            <span class="text-[9px] md:text-[10px] text-gold-500 uppercase tracking-widest">Law Office</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-8 max-w-md font-light">
+                        Kantor Hukum WAR menggabungkan keahlian hukum tradisional dengan pendekatan modern. Kami hadir untuk memastikan hak Anda terlindungi dengan standar profesionalisme tertinggi.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-gold-500 hover:text-jet transition-all"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-gold-500 hover:text-jet transition-all"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-gold-500 hover:text-jet transition-all"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-serif font-bold mb-6 md:mb-8">Kontak Resmi</h4>
+                    <ul class="space-y-4 md:space-y-6">
+                        <li class="flex items-start text-gray-400 text-sm font-light group">
+                            <i class="fas fa-map-marker-alt text-gold-500 mt-1 mr-4 w-5 group-hover:text-white transition-colors"></i>
+                            <span class="group-hover:text-gray-300 transition-colors">Jl. Jangli Tlawah No. 20 RT.008 RW.005, Karanganyargunung, Candisari Semarang, Semarang, Indonesia 50255</span>
+                        </li>
+                        <li class="flex items-center text-gray-400 text-sm font-light group">
+                            <i class="fas fa-phone text-gold-500 mr-4 w-5 group-hover:text-white transition-colors"></i>
+                            <span class="group-hover:text-gray-300 transition-colors">+62 818-0206-2662</span>
+                        </li>
+                        <li class="flex items-center text-gray-400 text-sm font-light group">
+                            <i class="fas fa-envelope text-gold-500 mr-4 w-5 group-hover:text-white transition-colors"></i>
+                            <span class="group-hover:text-gray-300 transition-colors">info@warlawoffice.com</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-serif font-bold mb-6 md:mb-8">Menu</h4>
+                    <ul class="space-y-3 md:space-y-4 text-sm text-gray-500 font-light">
+                        <li><a href="#home" class="hover:text-gold-500 transition-colors flex items-center gap-2"><i class="fas fa-chevron-right text-[10px]"></i> Beranda</a></li>
+                        <li><a href="#about" class="hover:text-gold-500 transition-colors flex items-center gap-2"><i class="fas fa-chevron-right text-[10px]"></i> Tentang Kami</a></li>
+                        <li><a href="#services" class="hover:text-gold-500 transition-colors flex items-center gap-2"><i class="fas fa-chevron-right text-[10px]"></i> Layanan</a></li>
+                        <li><a href="#faq" class="hover:text-gold-500 transition-colors flex items-center gap-2"><i class="fas fa-chevron-right text-[10px]"></i> FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/5">
+                <p class="text-gray-600 text-xs font-light text-center md:text-left">
+                    &copy; 2024 Kantor Hukum WAR Semarang. All Rights Reserved.
+                </p>
+                <p class="text-gray-700 text-[10px] mt-2 md:mt-0 uppercase tracking-widest">
+                    Design by AI Tech
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FLOATING WA -->
+    <a href="https://wa.me/6281802062662" target="_blank" class="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50 group">
+        <div class="absolute inset-0 bg-green-500 rounded-full animate-[ping_2s_ease-in-out_infinite] opacity-20"></div>
+        <div class="bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white rounded-full p-3 md:p-4 shadow-2xl flex items-center justify-center w-12 h-12 md:w-14 md:h-14 hover:scale-110 transition-transform duration-300 border border-white/20">
+            <i class="fab fa-whatsapp text-xl md:text-2xl"></i>
+        </div>
+    </a>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Toggle Mobile Menu (With Safety Check)
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu) {
+                if (menu.classList.contains('hidden')) {
+                    menu.classList.remove('hidden');
+                    menu.classList.add('flex');
+                } else {
+                    menu.classList.add('hidden');
+                    menu.classList.remove('flex');
+                }
+            }
+        }
+
+        // Toggle FAQ Accordion
+        function toggleFaq(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            if (content && content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                if(icon) icon.style.transform = 'rotate(180deg)';
+                button.classList.add('bg-white/5');
+            } else if (content) {
+                content.classList.add('hidden');
+                if(icon) icon.style.transform = 'rotate(0deg)';
+                button.classList.remove('bg-white/5');
+            }
+        }
+
+        // Navbar Blur on Scroll
+        window.addEventListener('scroll', function() {
+            const navbarBg = document.getElementById('navbar-bg');
+            if (navbarBg) {
+                if (window.scrollY > 50) {
+                    navbarBg.classList.remove('opacity-0');
+                } else {
+                    navbarBg.classList.add('opacity-0');
+                }
+            }
+        });
+
+        // --- ADVANCED SCROLL ANIMATION SYSTEM ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1 // Sedikit diturunkan agar animasi lebih cepat muncul di HP
+            };
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.target) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('active');
+                        } else {
+                            // Opsional: hilangkan else ini jika ingin animasi hanya sekali jalan (tidak hilang saat scroll ke atas)
+                            entry.target.classList.remove('active');
+                        }
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+            const animatedElements = document.querySelectorAll('.reveal-up, .reveal-fade, .reveal-left, .reveal-right');
+            if (animatedElements.length > 0) {
+                animatedElements.forEach(el => observer.observe(el));
+            }
+        });
+    </script>
+</body>
+</html>
