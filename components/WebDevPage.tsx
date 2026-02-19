@@ -1,5 +1,6 @@
 import React from 'react';
 import { Monitor, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const WebDevPage: React.FC = () => {
     const portfolios = [
@@ -8,10 +9,22 @@ const WebDevPage: React.FC = () => {
             title: 'Web Company Profile',
             desc: 'Desain elegan untuk perusahaan.',
             img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop',
-            link: '/company-profile/index.html' //
+            link: '/company-profile/index.html'//
         },
-        { id: 2, title: 'Toko Online UMKM', desc: 'E-commerce responsif siap jualan.', img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=1950&auto=format&fit=crop' },
-        { id: 3, title: 'Web Landing Page', desc: 'Optimasi konversi untuk promosi.', img: 'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=2070&auto=format&fit=crop' }
+        {
+            id: 2,
+            title: 'Toko Online UMKM',
+            desc: 'E-commerce responsif siap jualan.',
+            img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=1950&auto=format&fit=crop',
+            link: '#'
+        },
+        {
+            id: 3,
+            title: 'Web Landing Page',
+            desc: 'Optimasi konversi untuk promosi.',
+            img: 'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=2070&auto=format&fit=crop',
+            link: '#'
+        }
     ];
 
     return (
@@ -36,24 +49,23 @@ const WebDevPage: React.FC = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {portfolios.map((item) => (
-                        <div key={item.id} className="bg-[#12263F] rounded-[2rem] overflow-hidden border border-white/5 hover:border-[#1E90FF]/40 transition-all group">
-                            <div className="h-48 overflow-hidden relative">
-                                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
-                                <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                        <a key={item.id} href={item.link} target="_blank" rel="noopener noreferrer" className="block group">
+                            <div className="bg-[#12263F] rounded-[2rem] overflow-hidden border border-white/5 group-hover:border-[#1E90FF]/40 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl h-full flex flex-col">
+                                <div className="h-48 overflow-hidden relative">
+                                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
+                                    <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                                </div>
+                                <div className="p-6 flex-1 flex flex-col">
+                                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#1E90FF] transition-colors">{item.title}</h3>
+                                    <p className="text-white/50 text-sm mb-6 line-clamp-2 md:line-clamp-none flex-1">{item.desc}</p>
+                                    <div
+                                        className="flex items-center gap-2 text-[#1E90FF] text-sm font-bold uppercase tracking-widest group-hover:text-white transition-colors"
+                                    >
+                                        Lihat Detail <ExternalLink size={16} />
+                                    </div>
+                                </div>
                             </div>
-                            <div className="p-6">
-                                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#1E90FF] transition-colors">{item.title}</h3>
-                                <p className="text-white/50 text-sm mb-6">{item.desc}</p>
-                                <a
-                                    href={item.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center gap-2 text-[#1E90FF] text-sm font-bold uppercase tracking-widest hover:text-white transition-colors cursor-pointer"
-                                >
-                                    Lihat Detail <ExternalLink size={16} />
-                                </a>
-                            </div>
-                        </div>
+                        </a>
                     ))}
                 </div>
             </div>
