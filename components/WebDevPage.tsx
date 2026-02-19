@@ -49,7 +49,13 @@ const WebDevPage: React.FC = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {portfolios.map((item) => (
-                        <a key={item.id} href={item.link} target="_blank" rel="noopener noreferrer" className="block group">
+                        <Link
+                            key={item.id}
+                            to={item.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block group"
+                        >
                             <div className="bg-[#12263F] rounded-[2rem] overflow-hidden border border-white/5 group-hover:border-[#1E90FF]/40 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl h-full flex flex-col">
                                 <div className="h-48 overflow-hidden relative">
                                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
@@ -65,7 +71,7 @@ const WebDevPage: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </Link>
                     ))}
                 </div>
             </div>
