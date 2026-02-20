@@ -2,13 +2,10 @@
 title: "Tips Menulis Skripsi dalam 7 Hari"
 date: "20 Feb 2024"
 author: "Admin"
-image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=2070&auto=format&fit=crop"
+image: "/asset/gambar-artikel-lulusinkuy/lulusinkuy-artikel-skripsi.png"
 desc: "Menulis skripsi seringkali menjadi momok menakutkan. Simak strategi menyelesaikannya dengan cepatsgssbsf."
 ---
 
-# Rahasia Skripsi Cepat Lulus
-
-Ini adalah isi artikel pertama kamu. Sekarang kartu ini harusnya sudah muncul lagi di halaman Blog!
 
 # Tips Menulis Skripsi dalam 7 Hari
 

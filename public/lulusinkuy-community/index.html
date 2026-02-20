@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenPulse Foundation</title>
+    <!-- Menggunakan Tailwind CSS untuk sistem grid dan utilitas desain -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Inter untuk tampilan modern dan bersih -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mint: '#E0F2F1',
+                        forest: '#2D5A27',
+                        forestLight: '#3A7033',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Detail CSS Khusus untuk Animasi dan Shadow */
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Shadow sangat tipis untuk kartu */
+        .card-shadow {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .card-shadow:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Kelas Dasar Animasi (Durasi 1.5s, Ease-in-out sesuai permintaan) */
+        .reveal-down,
+        .reveal-up {
+            opacity: 0;
+            transition: all 1.5s ease-in-out;
+            will-change: opacity, transform;
+        }
+
+        /* Masuk dari atas ke posisi semula */
+        .reveal-down {
+            transform: translateY(-40px);
+        }
+
+        /* Masuk dari bawah ke posisi semula */
+        .reveal-up {
+            transform: translateY(50px);
+        }
+
+        /* State Aktif saat elemen terlihat di layar */
+        .reveal-down.is-active,
+        .reveal-up.is-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered entrance untuk kartu (Delay bervariasi) */
+        .delay-100 {
+            transition-delay: 100ms;
+        }
+
+        .delay-300 {
+            transition-delay: 300ms;
+        }
+
+        .delay-500 {
+            transition-delay: 500ms;
+        }
+
+        /* Smooth Dropdown */
+        .dropdown-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.4s ease-in-out;
+        }
+
+        .nav-item.group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body class="bg-white text-gray-800 antialiased selection:bg-mint selection:text-forest">
+
+    <!-- Header & Navigasi -->
+    <header
+        class="fixed w-full top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 transition-all duration-300"
+        id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer">
+                    <i data-lucide="leaf" class="text-forest w-8 h-8 mr-2"></i>
+                    <span class="font-bold text-2xl tracking-tight text-forest">GreenPulse</span>
+                </div>
+
+                <!-- Navigasi Desktop -->
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="#mission"
+                        class="text-gray-600 hover:text-forest font-medium transition-colors duration-300">Tentang
+                        Kami</a>
+
+                    <!-- Dropdown Menu -->
+                    <div class="nav-item group relative py-8">
+                        <button
+                            class="flex items-center text-gray-600 hover:text-forest font-medium transition-colors duration-300">
+                            Program <i data-lucide="chevron-down" class="w-4 h-4 ml-1"></i>
+                        </button>
+                        <div class="dropdown-menu absolute left-0 mt-2 w-48 rounded-xl bg-white card-shadow py-2 z-50">
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-mint hover:text-forest transition-colors">Reboisasi
+                                Hutan</a>
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-mint hover:text-forest transition-colors">Pembersihan
+                                Laut</a>
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-mint hover:text-forest transition-colors">Edukasi
+                                Ekologi</a>
+                        </div>
+                    </div>
+
+                    <a href="#news"
+                        class="text-gray-600 hover:text-forest font-medium transition-colors duration-300">Berita</a>
+                    <a href="#cta"
+                        class="bg-forest hover:bg-forestLight text-white px-6 py-2.5 rounded-full font-medium transition-all duration-300 shadow-sm hover:shadow-md">Donasi</a>
+                </nav>
+
+                <!-- Mobile Menu Button (Disembunyikan untuk kesederhanaan visual utama) -->
+                <div class="md:hidden flex items-center">
+                    <button class="text-forest focus:outline-none">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero & Impact Section (Digabung agar langsung terlihat) -->
+    <section id="mission"
+        class="relative pt-32 pb-16 min-h-screen flex flex-col justify-center bg-cover bg-center overflow-hidden"
+        style="background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+        <!-- Overlay Gradient: Lebih gelap di bawah agar teks statistik terbaca jelas -->
+        <div class="absolute inset-0 bg-gradient-to-b from-forest/90 via-forest/70 to-forest/95"></div>
+
+        <!-- Konten Utama Hero -->
+        <div
+            class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex-grow flex flex-col justify-center mt-12 mb-16">
+            <div class="max-w-3xl">
+                <!-- Judul masuk dari atas (fade-down) -->
+                <h1 class="reveal-down text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
+                    Menghidupkan Kembali <br> <span
+                        class="text-mint text-transparent bg-clip-text bg-gradient-to-r from-mint to-green-300">Detak
+                        Bumi.</span>
+                </h1>
+                <!-- Konten masuk dari bawah (fade-up) -->
+                <div class="reveal-up delay-100">
+                    <p class="text-lg md:text-xl text-mint/80 mb-10 leading-relaxed max-w-2xl font-light">
+                        GreenPulse Foundation berdedikasi memulihkan ekosistem global melalui tindakan lokal. Bersama
+                        membangun masa depan berkelanjutan dengan aksi nyata dan transparan.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#cta"
+                            class="px-8 py-3.5 bg-mint hover:bg-white text-forest rounded-full font-semibold transition-all duration-300 shadow-[0_0_20px_rgba(224,242,241,0.3)] hover:shadow-[0_0_30px_rgba(224,242,241,0.5)] transform hover:-translate-y-1">
+                            Ambil Bagian
+                        </a>
+                        <a href="#news"
+                            class="px-8 py-3.5 bg-transparent border border-mint/50 hover:bg-mint/10 text-mint rounded-full font-semibold transition-all duration-300 flex items-center">
+                            Pelajari Program <i data-lucide="play" class="w-4 h-4 ml-2 fill-current"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Glassmorphism Impact Numbers (Langsung terlihat di bawah lipatan hero) -->
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-8">
+            <div
+                class="reveal-up delay-300 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 md:p-10 shadow-2xl">
+                <div
+                    class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 divide-y md:divide-y-0 md:divide-x divide-white/20">
+
+                    <!-- Counter 1 -->
+                    <div class="text-center px-4 pt-4 md:pt-0">
+                        <div class="flex justify-center items-center mb-3">
+                            <i data-lucide="tree-pine" class="w-6 h-6 text-mint mr-2"></i>
+                            <span class="text-mint/80 text-sm font-semibold tracking-widest uppercase">Pohon
+                                Ditanam</span>
+                        </div>
+                        <div class="text-4xl md:text-5xl font-bold text-white flex justify-center items-center">
+                            <span class="counter-value" data-target="15000">0</span>
+                            <span class="text-mint ml-1">+</span>
+                        </div>
+                    </div>
+
+                    <!-- Counter 2 -->
+                    <div class="text-center px-4 pt-8 md:pt-0">
+                        <div class="flex justify-center items-center mb-3">
+                            <i data-lucide="users" class="w-6 h-6 text-mint mr-2"></i>
+                            <span class="text-mint/80 text-sm font-semibold tracking-widest uppercase">Relawan
+                                Aktif</span>
+                        </div>
+                        <div class="text-4xl md:text-5xl font-bold text-white flex justify-center items-center">
+                            <span class="counter-value" data-target="2500">0</span>
+                            <span class="text-mint ml-1">+</span>
+                        </div>
+                    </div>
+
+                    <!-- Counter 3 -->
+                    <div class="text-center px-4 pt-8 md:pt-0">
+                        <div class="flex justify-center items-center mb-3">
+                            <i data-lucide="droplet" class="w-6 h-6 text-mint mr-2"></i>
+                            <span class="text-mint/80 text-sm font-semibold tracking-widest uppercase">Plastik
+                                Diangkat</span>
+                        </div>
+                        <div class="text-4xl md:text-5xl font-bold text-white flex justify-center items-center">
+                            <span class="counter-value" data-target="50">0</span>
+                            <span class="text-xl md:text-2xl text-mint ml-2 self-end mb-1">Ton</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest News Section -->
+    <section id="news" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <!-- Judul fade-down -->
+                <h2 class="reveal-down text-3xl md:text-4xl font-bold text-forest mb-4">Berita Terbaru</h2>
+                <div class="w-16 h-1 bg-forest mx-auto rounded-full"></div>
+                <!-- Konten teks pendukung fade-up -->
+                <p class="reveal-up mt-6 text-gray-600 max-w-2xl mx-auto">Ikuti terus perkembangan proyek lingkungan
+                    kami di seluruh penjuru dunia.</p>
+            </div>
+
+            <!-- Grid Kartu Berita -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                <!-- Card 1 (Delay 100ms) -->
+                <article class="reveal-up delay-100 bg-white rounded-2xl overflow-hidden card-shadow flex flex-col">
+                    <div class="h-48 overflow-hidden bg-gray-200">
+                        <!-- Gambar dengan fallback error -->
+                        <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Hutan Tropis"
+                            class="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                            onerror="this.src='https://via.placeholder.com/800x400?text=Image+Unavailable'">
+                    </div>
+                    <div class="p-8 flex-1 flex flex-col">
+                        <span class="text-xs font-semibold text-forest tracking-wider uppercase mb-2">Konservasi
+                            Hutan</span>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 leading-snug">Keberhasilan Reboisasi Fase 2 di
+                            Kalimantan</h3>
+                        <p class="text-gray-600 mb-6 flex-1 text-sm leading-relaxed">Lebih dari 5.000 bibit endemik
+                            telah berhasil ditanam bulan ini berkat bantuan masyarakat lokal.</p>
+                        <a href="#" class="inline-flex items-center text-forest font-medium hover:text-forestLight">
+                            Baca Selengkapnya <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Card 2 (Delay 300ms) -->
+                <article class="reveal-up delay-300 bg-white rounded-2xl overflow-hidden card-shadow flex flex-col">
+                    <div class="h-48 overflow-hidden bg-gray-200">
+                        <img src="https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Pembersihan Pantai"
+                            class="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                            onerror="this.src='https://via.placeholder.com/800x400?text=Image+Unavailable'">
+                    </div>
+                    <div class="p-8 flex-1 flex flex-col">
+                        <span class="text-xs font-semibold text-forest tracking-wider uppercase mb-2">Aksi
+                            Komunitas</span>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 leading-snug">Ratusan Relawan Bersihkan Pantai
+                            Selatan</h3>
+                        <p class="text-gray-600 mb-6 flex-1 text-sm leading-relaxed">Program pembersihan akhir pekan
+                            berhasil mengangkat lebih dari 2 ton sampah plastik laut.</p>
+                        <a href="#" class="inline-flex items-center text-forest font-medium hover:text-forestLight">
+                            Baca Selengkapnya <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Card 3 (Delay 500ms) -->
+                <article class="reveal-up delay-500 bg-white rounded-2xl overflow-hidden card-shadow flex flex-col">
+                    <div class="h-48 overflow-hidden bg-gray-200">
+                        <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Edukasi"
+                            class="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                            onerror="this.src='https://via.placeholder.com/800x400?text=Image+Unavailable'">
+                    </div>
+                    <div class="p-8 flex-1 flex flex-col">
+                        <span class="text-xs font-semibold text-forest tracking-wider uppercase mb-2">Edukasi</span>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 leading-snug">Peluncuran Modul Ekologi untuk
+                            Sekolah Dasar</h3>
+                        <p class="text-gray-600 mb-6 flex-1 text-sm leading-relaxed">Membangun kesadaran lingkungan
+                            sejak dini melalui modul interaktif yang disalurkan ke 50 sekolah.</p>
+                        <a href="#" class="inline-flex items-center text-forest font-medium hover:text-forestLight">
+                            Baca Selengkapnya <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
+                        </a>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Donation CTA Section -->
+    <section id="cta" class="relative py-24 border-t border-gray-100 overflow-hidden bg-cover bg-center"
+        style="background-image: url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+        <!-- Overlay Gradient -->
+        <div class="absolute inset-0 bg-forest/90 mix-blend-multiply"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-forest via-forest/80 to-transparent"></div>
+
+        <div
+            class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center border border-white/20 bg-white/10 backdrop-blur-md rounded-3xl p-12 md:p-16 card-shadow">
+            <!-- Judul dari atas -->
+            <h2 class="reveal-down text-3xl md:text-5xl font-bold text-white mb-6">Jadilah Bagian dari Perubahan</h2>
+            <!-- Konten dari bawah -->
+            <div class="reveal-up delay-100">
+                <p class="text-lg text-mint/90 mb-10 max-w-2xl mx-auto">
+                    Setiap kontribusi, sekecil apapun, membawa kita selangkah lebih dekat ke bumi yang lebih sehat.
+                    Bergabunglah dengan GreenPulse hari ini.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                    <button
+                        class="w-full sm:w-auto px-8 py-4 bg-mint hover:bg-white text-forest rounded-full font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center">
+                        Join Us Now <i data-lucide="heart" class="w-5 h-5 ml-2 text-red-500"></i>
+                    </button>
+                    <button
+                        class="w-full sm:w-auto px-8 py-4 bg-transparent border-2 border-mint hover:bg-mint/10 text-mint rounded-full font-semibold text-lg transition-all duration-300 flex items-center justify-center">
+                        Pelajari Lebih Lanjut
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-forest text-mint/80 py-12 border-t border-forestLight/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center mb-6 md:mb-0">
+                <i data-lucide="leaf" class="w-6 h-6 mr-2 text-mint"></i>
+                <span class="font-bold text-xl text-white tracking-tight">GreenPulse</span>
+            </div>
+            <div class="text-sm text-center md:text-left mb-6 md:mb-0">
+                &copy; 2026 GreenPulse Foundation. Transparansi dan Integritas.
+            </div>
+            <div class="flex space-x-6">
+                <a href="#" class="hover:text-white transition-colors"><i data-lucide="instagram"
+                        class="w-5 h-5"></i></a>
+                <a href="#" class="hover:text-white transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                <a href="#" class="hover:text-white transition-colors"><i data-lucide="mail" class="w-5 h-5"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script Utama untuk Interaktivitas -->
+    <script>
+        // Inisialisasi ikon Lucide
+        lucide.createIcons();
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            // 1. Logika Intersection Observer untuk Efek Animasi Muncul (Fade-up / Fade-down)
+            // Mengatur durasi intersection menjadi 10% elemen terlihat
+            const animOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const animObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    // Jika elemen masuk ke area pandang layar
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-active');
+                        // Opsional: Stop mengamati jika hanya ingin animasi berjalan sekali
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, animOptions);
+
+            // Pilih semua elemen dengan class reveal-up dan reveal-down
+            const revealElements = document.querySelectorAll('.reveal-up, .reveal-down');
+            revealElements.forEach(el => animObserver.observe(el));
+
+
+            // 2. Logika Counter Statistik Berjalan Naik
+            const counters = document.querySelectorAll('.counter-value');
+            const speed = 100; // Semakin besar angka, semakin lambat pergerakannya
+
+            const counterObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counter = entry.target;
+
+                        const updateCount = () => {
+                            const target = +counter.getAttribute('data-target');
+                            const count = +counter.innerText.replace(/,/g, '');
+
+                            // Menghitung langkah kenaikan angka
+                            const increment = target / speed;
+
+                            if (count < target) {
+                                // Membulatkan angka dan menambahkan koma ribuan
+                                counter.innerText = Math.ceil(count + increment).toLocaleString();
+                                // Menggunakan setTimeout untuk efek pergerakan mulus
+                                setTimeout(updateCount, 20);
+                            } else {
+                                counter.innerText = target.toLocaleString();
+                            }
+                        };
+
+                        updateCount();
+                        observer.unobserve(counter); // Berhenti mengamati agar tidak terulang
+                    }
+                });
+            }, { threshold: 0.5 }); // Mulai animasi ketika elemen setengah terlihat
+
+            counters.forEach(counter => counterObserver.observe(counter));
+
+
+            // 3. Efek Shadow pada Navbar saat di-scroll
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 10) {
+                    navbar.classList.add('shadow-sm');
+                } else {
+                    navbar.classList.remove('shadow-sm');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

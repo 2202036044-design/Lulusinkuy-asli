@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Studio | Premium Creative Developer</title>
+
+    <!-- Google Fonts: Playfair Display & Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- AOS Library CSS untuk animasi scroll -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <style>
+        /* Variabel Warna & Font */
+        :root {
+            --bg-color: #F8F8F8;
+            --text-color: #1A1A1A;
+            --accent-color: #0055FF;
+            /* Electric Blue */
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+            /* Menyembunyikan kursor default untuk custom cursor */
+        }
+
+        html,
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        ::selection {
+            background-color: var(--accent-color);
+            color: #fff;
+        }
+
+        a,
+        button {
+            color: inherit;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        /* Custom Cursor */
+        .custom-cursor {
+            width: 12px;
+            height: 12px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s, mix-blend-mode 0.3s;
+            mix-blend-mode: normal;
+        }
+
+        .custom-cursor.hovered {
+            width: 50px;
+            height: 50px;
+            background-color: #fff;
+            mix-blend-mode: difference;
+        }
+
+        /* Navigasi */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem 5vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
+            color: #fff;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -4px;
+            left: 0;
+            background-color: #fff;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* --- NEW HERO SECTION (Aesthetic dengan Gambar & Gradien) --- */
+        #hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5vw;
+            overflow: hidden;
+        }
+
+        /* Gambar Latar Belakang Hero */
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 110%;
+            background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2500&auto=format&fit=crop');
+            /* [Gambar arsitektur elegan] */
+            background-size: cover;
+            background-position: center;
+            z-index: -2;
+            will-change: transform;
+            opacity: 0.6;
+            /* Membuat gambar sedikit transparan */
+        }
+
+        /* Gradien Estetik yang menyatu dengan background website */
+        .hero-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Gradien putih/off-white transparan agar teks di depannya terbaca jelas */
+            background: linear-gradient(180deg,
+                    rgba(248, 248, 248, 0.4) 0%,
+                    rgba(248, 248, 248, 0.8) 60%,
+                    rgba(248, 248, 248, 1) 100%);
+            z-index: -1;
+        }
+
+        /* --- NEW: Gambar Foreground Estetik bergaya Arch --- */
+        .hero-art {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 28vw;
+            min-width: 280px;
+            max-width: 400px;
+            aspect-ratio: 3 / 4;
+            border-radius: 200px 200px 0 0;
+            /* Membentuk lengkungan/arch elegan */
+            overflow: hidden;
+            z-index: -1;
+            /* Berada di belakang teks judul */
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            animation: artFloat 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes artFloat {
+            0% {
+                transform: scale(1) translateY(0);
+            }
+
+            100% {
+                transform: scale(1.05) translateY(-20px);
+            }
+        }
+
+        /* -------------------------------------------------- */
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 5vh;
+            width: 100%;
+        }
+
+        .hero-subtitle {
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        .hero-title-wrapper {
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: clamp(3rem, 8vw, 9rem);
+            font-weight: 700;
+            line-height: 1.1;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            color: var(--text-color);
+            max-width: 1200px;
+        }
+
+        .hero-title span {
+            display: inline-block;
+            transform: translateY(120%);
+            opacity: 0;
+            animation: slideUpLetter 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .hero-desc {
+            max-width: 600px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 3rem;
+        }
+
+        /* Tombol CTA Hero */
+        .primary-btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            border: 1px solid var(--text-color);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+            transition: color 0.4s ease;
+        }
+
+        .primary-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--text-color);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: -1;
+        }
+
+        .primary-btn:hover {
+            color: var(--bg-color);
+            border-color: var(--text-color);
+        }
+
+        .primary-btn:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* Scroll Indicator Bawah */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 5vh;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.6;
+        }
+
+        .scroll-text {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            writing-mode: vertical-rl;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 50px;
+            background-color: rgba(26, 26, 26, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background-color: var(--text-color);
+            animation: scrollLineAnim 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollLineAnim {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(200%);
+            }
+        }
+
+        @keyframes slideUpLetter {
+            0% {
+                transform: translateY(120%);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* --- MARQUEE SECTION (Teks Berjalan) --- */
+        #marquee {
+            padding: 5vh 0;
+            background-color: var(--bg-color);
+            overflow: hidden;
+            display: flex;
+            white-space: nowrap;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .marquee-content {
+            font-family: var(--font-heading);
+            font-size: 4rem;
+            font-style: italic;
+            display: inline-block;
+            animation: marqueeScroll 20s linear infinite;
+            padding-right: 2rem;
+        }
+
+        .marquee-content span {
+            margin: 0 2rem;
+            -webkit-text-stroke: 1px var(--text-color);
+            color: transparent;
+        }
+
+        .marquee-content span.solid {
+            -webkit-text-stroke: 0;
+            color: var(--accent-color);
+        }
+
+        @keyframes marqueeScroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* --- SERVICES SECTION --- */
+        #services {
+            padding: 15vh 5vw;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .services-header {
+            margin-bottom: 8vh;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 2px solid var(--text-color);
+            padding-bottom: 2rem;
+        }
+
+        .services-header h2 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+        }
+
+        .services-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: center;
+            padding: 3rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            transition: padding-left 0.4s ease;
+        }
+
+        .service-item:hover {
+            padding-left: 2rem;
+            /* Efek geser saat hover */
+        }
+
+        .service-num {
+            font-size: 1.5rem;
+            font-weight: 300;
+            width: 10%;
+            color: var(--accent-color);
+        }
+
+        .service-title {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            width: 40%;
+        }
+
+        .service-desc {
+            width: 50%;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        /* --- SELECTED WORKS SECTION --- */
+        #works {
+            padding: 10vh 5vw 15vh;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            margin-bottom: 10vh;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .work-item {
+            margin-bottom: 20vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .work-img-wrapper {
+            width: 100%;
+            height: 75vh;
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            transform-origin: center top;
+            transition: transform 0.1s linear;
+        }
+
+        .parallax-img {
+            position: absolute;
+            top: -15%;
+            left: 0;
+            width: 100%;
+            height: 130%;
+            object-fit: cover;
+            will-change: transform;
+        }
+
+        .work-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 2rem;
+        }
+
+        .work-title {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        .work-category {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .work-link {
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--text-color);
+            padding-bottom: 5px;
+            position: relative;
+        }
+
+        .work-link:hover {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        /* --- ABOUT SECTION --- */
+        #about {
+            padding: 15vh 5vw;
+            background-color: #fff;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8vw;
+            max-width: 1400px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .about-img-wrapper {
+            width: 100%;
+            aspect-ratio: 4 / 5;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .about-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.8s ease, transform 0.8s ease;
+        }
+
+        .about-img-wrapper:hover .about-img {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+
+        .about-text h2 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            line-height: 1.2;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #444;
+        }
+
+        /* --- CONTACT & FOOTER SECTION --- */
+        #contact {
+            padding: 15vh 5vw 5vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        .contact-subtitle {
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            color: #ccc;
+        }
+
+        .contact-link {
+            font-family: var(--font-heading);
+            font-size: clamp(4rem, 12vw, 15rem);
+            font-weight: 700;
+            color: var(--bg-color);
+            transition: color 0.4s ease, transform 0.4s ease;
+            line-height: 1;
+        }
+
+        .contact-link:hover {
+            color: var(--accent-color);
+            transform: scale(1.02);
+            -webkit-text-stroke: 2px var(--accent-color);
+            color: transparent;
+        }
+
+        /* Footer Bawah */
+        footer {
+            width: 100%;
+            max-width: 1600px;
+            margin-top: 15vh;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-col h4 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-col a {
+            color: #aaa;
+            font-size: 0.95rem;
+        }
+
+        .footer-col a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            width: 100%;
+            margin-top: 3rem;
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Responsiveness */
+        @media (max-width: 900px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+
+            .service-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .service-num,
+            .service-title,
+            .service-desc {
+                width: 100%;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            footer {
+                flex-direction: column;
+            }
+
+            .custom-cursor {
+                display: none;
+                /* Matikan custom cursor di perangkat sentuh */
+            }
+
+            * {
+                cursor: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Kursor Kustom -->
+    <div class="custom-cursor" id="cursor"></div>
+
+    <!-- Navigasi -->
+    <nav>
+        <a href="#" class="logo hover-target">AURA.</a>
+        <div class="nav-links">
+            <a href="#services" class="hover-target">Expertise</a>
+            <a href="#works" class="hover-target">Works</a>
+            <a href="#about" class="hover-target">About</a>
+            <a href="#contact" class="hover-target">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="hero-bg" id="hero-bg"></div>
+        <div class="hero-gradient"></div> <!-- Lapisan Gradien Estetik -->
+
+        <div class="hero-content">
+            <!-- NEW: Gambar Foreground Estetik di Tengah -->
+            <div class="hero-art" data-aos="zoom-in" data-aos-duration="2000">
+                <img src="https://images.unsplash.com/photo-1602738328654-51ab2ae6c4ff?q=80&w=1000&auto=format&fit=crop"
+                    alt="[Gambar seni rupa abstrak estetik]">
+            </div>
+
+            <div class="hero-subtitle" data-aos="fade-down" data-aos-delay="200">Aura Studio — Premium Agency</div>
+            <div class="hero-title-wrapper">
+                <h1 class="hero-title" id="hero-text">CRAFTING ELEGANCE</h1>
+            </div>
+            <p class="hero-desc" data-aos="fade-up" data-aos-delay="800">
+                Kami merancang dan mengembangkan pengalaman digital eksklusif yang memadukan estetika minimalis dengan
+                teknologi mutakhir untuk brand global.
+            </p>
+            <div data-aos="fade-up" data-aos-delay="1000">
+                <a href="#works" class="primary-btn hover-target">Explore Our Works</a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator" data-aos="fade-in" data-aos-delay="1500">
+            <div class="scroll-text">Scroll</div>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Marquee Section (Teks Berjalan Tanpa Henti) -->
+    <section id="marquee">
+        <!-- Teks diduplikasi untuk menciptakan efek infinite scroll -->
+        <div class="marquee-content">
+            CREATIVE DEVELOPER <span>•</span> <span class="solid">DIGITAL ELEGANCE</span> <span>•</span> HIGH-END DESIGN
+            <span>•</span> WEB EXPERIENCES <span>•</span>
+            CREATIVE DEVELOPER <span>•</span> <span class="solid">DIGITAL ELEGANCE</span> <span>•</span> HIGH-END DESIGN
+            <span>•</span> WEB EXPERIENCES <span>•</span>
+        </div>
+    </section>
+
+    <!-- Services / Expertise Section -->
+    <section id="services">
+        <div class="services-header">
+            <h2 data-aos="fade-up">Our Expertise</h2>
+            <p data-aos="fade-up" data-aos-delay="100" style="max-width: 300px; text-align: right; color: #666;">Kami
+                menggabungkan estetika dan teknologi untuk hasil yang memukau.</p>
+        </div>
+        <div class="services-list">
+            <div class="service-item hover-target" data-aos="fade-up">
+                <span class="service-num">01</span>
+                <h3 class="service-title">Digital Design</h3>
+                <p class="service-desc">Merancang antarmuka pengguna (UI) yang mewah, responsif, dan memberikan
+                    pengalaman pengguna (UX) yang tak terlupakan.</p>
+            </div>
+            <div class="service-item hover-target" data-aos="fade-up" data-aos-delay="100">
+                <span class="service-num">02</span>
+                <h3 class="service-title">Creative Dev</h3>
+                <p class="service-desc">Mengubah desain statis menjadi pengalaman interaktif dengan animasi halus,
+                    transisi mulus, dan WebGL.</p>
+            </div>
+            <div class="service-item hover-target" data-aos="fade-up" data-aos-delay="200">
+                <span class="service-num">03</span>
+                <h3 class="service-title">Art Direction</h3>
+                <p class="service-desc">Mengarahkan visi visual brand Anda agar selaras di seluruh platform digital
+                    dengan karakter yang kuat.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Selected Works Section -->
+    <section id="works">
+        <h2 class="section-title" data-aos="fade-up">Selected Works</h2>
+
+        <!-- Proyek 1 -->
+        <div class="work-item" data-aos="fade-right">
+            <div class="work-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=2000&auto=format&fit=crop"
+                    alt="[Gambar arsitektur minimalis]" class="parallax-img">
+            </div>
+            <div class="work-info">
+                <div>
+                    <h3 class="work-title">Lumina Space</h3>
+                    <p class="work-category">Architecture / Web Design</p>
+                </div>
+                <a href="#" class="work-link hover-target">View Project</a>
+            </div>
+        </div>
+
+        <!-- Proyek 2 -->
+        <div class="work-item" data-aos="fade-left">
+            <div class="work-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop"
+                    alt="[Gambar interior modern]" class="parallax-img">
+            </div>
+            <div class="work-info">
+                <div>
+                    <h3 class="work-title">Kanso Interior</h3>
+                    <p class="work-category">Interior / Branding</p>
+                </div>
+                <a href="#" class="work-link hover-target">View Project</a>
+            </div>
+        </div>
+
+        <!-- Proyek 3 -->
+        <div class="work-item" data-aos="fade-right">
+            <div class="work-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=2000&auto=format&fit=crop"
+                    alt="[Gambar furnitur elegan]" class="parallax-img">
+            </div>
+            <div class="work-info">
+                <div>
+                    <h3 class="work-title">Aura Furniture</h3>
+                    <p class="work-category">Product / E-Commerce</p>
+                </div>
+                <a href="#" class="work-link hover-target">View Project</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="about-grid">
+            <div class="about-img-wrapper" data-aos="fade-up">
+                <!-- Foto Placeholder Hitam Putih -->
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop"
+                    alt="[Gambar potret hitam putih kreator]" class="about-img">
+            </div>
+            <div class="about-text" data-aos="fade-up" data-aos-delay="200">
+                <h2>Simplicity is the ultimate sophistication.</h2>
+                <p>Halo, saya adalah seorang Creative Developer & Designer yang berfokus pada pengalaman digital
+                    *high-end*. Saya percaya bahwa ruang kosong (whitespace) bukanlah ruang yang tak terpakai, melainkan
+                    pondasi untuk menonjolkan elemen yang paling penting.</p>
+                <p>Dengan memadukan tipografi yang berani, interaksi mikro yang halus, dan arsitektur kode yang modern,
+                    saya membantu brand menciptakan identitas digital yang elegan dan tak lekang oleh waktu.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Footer Section (Tema Gelap Inverted) -->
+    <section id="contact">
+        <p class="contact-subtitle" data-aos="fade-up">Have an idea?</p>
+        <a href="mailto:hello@aurastudio.com" class="contact-link hover-target" data-aos="zoom-in"
+            data-aos-delay="100">Let's Talk</a>
+
+        <footer id="footer">
+            <div class="footer-col">
+                <h4>Socials</h4>
+                <ul>
+                    <li><a href="#" class="hover-target">Instagram</a></li>
+                    <li><a href="#" class="hover-target">Twitter (X)</a></li>
+                    <li><a href="#" class="hover-target">LinkedIn</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Location</h4>
+                <ul>
+                    <li style="color:#aaa">Jakarta, Indonesia</li>
+                    <li style="color:#aaa" id="local-time">00:00 AM (GMT+7)</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Sitemap</h4>
+                <ul>
+                    <li><a href="#hero" class="hover-target">Home</a></li>
+                    <li><a href="#services" class="hover-target">Expertise</a></li>
+                    <li><a href="#works" class="hover-target">Works</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 Aura Studio.</p>
+                <p>Designed with Passion.</p>
+            </div>
+        </footer>
+    </section>
+
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+    <script>
+        // 1. Inisialisasi AOS (Animate On Scroll)
+        AOS.init({
+            duration: 1000,
+            once: false,
+            mirror: true,
+            offset: 100
+        });
+
+        // 2. Custom Cursor Logic
+        const cursor = document.getElementById('cursor');
+        const hoverTargets = document.querySelectorAll('.hover-target, a, button');
+
+        // Pindahkan kursor mengikuti mouse
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Efek membesar saat hover
+        hoverTargets.forEach(target => {
+            target.addEventListener('mouseenter', () => {
+                cursor.classList.add('hovered');
+            });
+            target.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hovered');
+            });
+        });
+
+        // 3. Animasi Hero: Memecah teks judul menjadi huruf-huruf untuk Staggered Entrance
+        const heroText = document.getElementById('hero-text');
+        const textContent = heroText.innerText;
+        heroText.innerHTML = '';
+
+        textContent.split('').forEach((char, index) => {
+            const span = document.createElement('span');
+            span.innerHTML = char === ' ' ? '&nbsp;' : char;
+            span.style.animationDelay = `${index * 0.08}s`; // Perlambat sedikit agar lebih elegan
+            heroText.appendChild(span);
+        });
+
+        // 4. Efek Parallax
+        const parallaxImages = document.querySelectorAll('.parallax-img');
+        const heroBg = document.getElementById('hero-bg');
+
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+
+            // Parallax untuk Hero Background Image (bergeser ke bawah saat di-scroll)
+            if (scrollY < window.innerHeight) {
+                heroBg.style.transform = `translateY(${scrollY * 0.3}px)`;
+            }
+
+            // Parallax untuk gambar di Selected Works
+            parallaxImages.forEach(img => {
+                const wrapper = img.closest('.work-img-wrapper');
+                const rect = wrapper.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+
+                if (rect.top < windowHeight && rect.bottom > 0) {
+                    const progress = (windowHeight - rect.top) / (windowHeight + rect.height);
+                    const yOffset = (progress - 0.5) * 20;
+                    img.style.transform = `translateY(${yOffset}%)`;
+
+                    if (rect.top < windowHeight * 0.3) {
+                        let scaleAmount = 1 - ((windowHeight * 0.3 - rect.top) * 0.0004);
+                        scaleAmount = Math.max(0.88, scaleAmount);
+                        wrapper.style.transform = `scale(${scaleAmount})`;
+                    } else {
+                        wrapper.style.transform = `scale(1)`;
+                    }
+                }
+            });
+        });
+
+        // 5. Update Local Time (Jakarta GMT+7)
+        function updateTime() {
+            const timeElement = document.getElementById('local-time');
+            const now = new Date();
+            const options = { timeZone: 'Asia/Jakarta', hour: '2-digit', minute: '2-digit', hour12: true };
+            timeElement.innerText = now.toLocaleTimeString('en-US', options) + ' (GMT+7)';
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+    </script>
+</body>
+
+</html>

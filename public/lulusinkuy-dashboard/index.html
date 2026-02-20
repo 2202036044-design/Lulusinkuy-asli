@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeMetrics - Social Media Analytics</title>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            800: '#1e40af',
+                        },
+                        background: '#F4F7FB', // Light airy blue-gray
+                        card: '#FFFFFF',
+                        navy: '#0F172A', // Deep elegant navy for text
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F4F7FB;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        /* Smooth hover transition for cards */
+        .stat-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px -2px rgba(37, 99, 235, 0.03);
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -8px rgba(37, 99, 235, 0.12);
+            border-color: #dbeafe;
+        }
+
+        /* Sidebar Item Hover */
+        .sidebar-item {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .sidebar-item:hover {
+            background: linear-gradient(90deg, #eff6ff, transparent);
+            color: #2563eb;
+            transform: translateX(4px);
+        }
+        .sidebar-item.active {
+            background: linear-gradient(90deg, #eff6ff, transparent);
+            color: #2563eb;
+            font-weight: 600;
+        }
+        .sidebar-item.active::before {
+            content: '';
+            position: absolute;
+            left: -16px;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 20px;
+            width: 4px;
+            background-color: #2563eb;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* Elegant Gradients for icons */
+        .icon-grad-blue { background: linear-gradient(135deg, #2563eb, #60a5fa); }
+        .icon-grad-teal { background: linear-gradient(135deg, #0d9488, #2dd4bf); }
+        .icon-grad-indigo { background: linear-gradient(135deg, #4f46e5, #818cf8); }
+        .icon-grad-sky { background: linear-gradient(135deg, #0284c7, #38bdf8); }
+    </style>
+</head>
+<body class="bg-background text-slate-700 font-sans antialiased overflow-hidden flex h-screen relative">
+
+    <!-- Decorative Ambient Background Blobs -->
+    <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-400/10 rounded-full blur-[100px] pointer-events-none z-0"></div>
+    <div class="absolute bottom-[-10%] right-[-5%] w-[30%] h-[40%] bg-sky-300/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-card/80 backdrop-blur-xl border-r border-white flex flex-col justify-between hidden md:flex z-20 shadow-[4px_0_24px_rgba(37,99,235,0.02)]">
+        <div>
+            <div class="h-20 flex items-center px-8 border-b border-blue-50/50">
+                <div class="p-2 bg-gradient-to-br from-brand-600 to-brand-400 rounded-xl mr-3 shadow-lg shadow-brand-500/20">
+                    <i data-lucide="activity" class="text-white w-5 h-5"></i>
+                </div>
+                <h1 class="text-xl font-bold tracking-tight text-navy">VibeMetrics</h1>
+            </div>
+            <nav class="p-4 space-y-2 mt-4">
+                <a href="#" class="sidebar-item active flex items-center px-4 py-3 text-sm font-medium rounded-xl text-slate-500">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i> Dashboard
+                </a>
+                <a href="#" class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-xl text-slate-500">
+                    <i data-lucide="bar-chart-2" class="w-5 h-5 mr-3"></i> Analytics
+                </a>
+                <a href="#" class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-xl text-slate-500">
+                    <i data-lucide="message-square" class="w-5 h-5 mr-3"></i> Messages
+                    <span class="ml-auto bg-brand-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">3</span>
+                </a>
+                <a href="#" class="sidebar-item flex items-center px-4 py-3 text-sm font-medium rounded-xl text-slate-500">
+                    <i data-lucide="settings" class="w-5 h-5 mr-3"></i> Settings
+                </a>
+            </nav>
+        </div>
+        <div class="p-4 border-t border-blue-50/50">
+            <div class="flex items-center p-4 bg-brand-50/50 rounded-2xl cursor-pointer hover:bg-brand-50 transition border border-transparent hover:border-brand-100">
+                <img src="https://i.pravatar.cc/150?img=68" alt="User Profile" class="w-10 h-10 rounded-full border-2 border-white shadow-sm">
+                <div class="ml-3">
+                    <p class="text-sm font-bold text-navy">Alex Danis</p>
+                    <p class="text-xs text-brand-600 font-medium">Creator Pro</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-screen overflow-y-auto relative z-10">
+        <!-- Header -->
+        <header class="h-20 bg-background/60 backdrop-blur-xl flex items-center justify-between px-8 sticky top-0 z-10 border-b border-white">
+            <h2 class="text-2xl font-bold text-navy">Overview</h2>
+            <div class="flex items-center space-x-4">
+                <button class="p-2 text-slate-400 hover:text-brand-600 transition rounded-full hover:bg-white shadow-sm border border-transparent hover:border-blue-100 bg-white/50">
+                    <i data-lucide="bell" class="w-5 h-5"></i>
+                </button>
+                <div class="md:hidden">
+                    <img src="https://i.pravatar.cc/150?img=68" alt="User Profile" class="w-8 h-8 rounded-full border-2 border-white shadow-sm">
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <div class="p-8 max-w-7xl mx-auto w-full space-y-8 pb-20">
+            
+            <!-- Stat Cards Section -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 -->
+                <div class="stat-card bg-card/80 backdrop-blur-sm p-6 rounded-[24px] border border-white flex flex-col justify-between" data-aos="fade-up" data-aos-delay="0">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 icon-grad-blue text-white rounded-2xl shadow-lg shadow-blue-500/20">
+                            <i data-lucide="users" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-xs font-bold text-emerald-600 flex items-center bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">
+                            <i data-lucide="trending-up" class="w-3 h-3 mr-1"></i> +12%
+                        </span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-slate-500 mb-1">Total Followers</p>
+                        <h3 class="text-3xl font-extrabold text-navy counter" data-target="124500">0</h3>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="stat-card bg-card/80 backdrop-blur-sm p-6 rounded-[24px] border border-white flex flex-col justify-between" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 icon-grad-teal text-white rounded-2xl shadow-lg shadow-teal-500/20">
+                            <i data-lucide="heart" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-xs font-bold text-emerald-600 flex items-center bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">
+                            <i data-lucide="trending-up" class="w-3 h-3 mr-1"></i> +5.4%
+                        </span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-slate-500 mb-1">Total Likes</p>
+                        <h3 class="text-3xl font-extrabold text-navy counter" data-target="89200">0</h3>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="stat-card bg-card/80 backdrop-blur-sm p-6 rounded-[24px] border border-white flex flex-col justify-between" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 icon-grad-indigo text-white rounded-2xl shadow-lg shadow-indigo-500/20">
+                            <i data-lucide="eye" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-xs font-bold text-rose-500 flex items-center bg-rose-50 px-2.5 py-1 rounded-full border border-rose-100">
+                            <i data-lucide="trending-down" class="w-3 h-3 mr-1"></i> -2.1%
+                        </span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-slate-500 mb-1">Account Reach</p>
+                        <h3 class="text-3xl font-extrabold text-navy counter" data-target="450300">0</h3>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="stat-card bg-card/80 backdrop-blur-sm p-6 rounded-[24px] border border-white flex flex-col justify-between" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 icon-grad-sky text-white rounded-2xl shadow-lg shadow-sky-500/20">
+                            <i data-lucide="zap" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-xs font-bold text-emerald-600 flex items-center bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">
+                            <i data-lucide="trending-up" class="w-3 h-3 mr-1"></i> +18%
+                        </span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-slate-500 mb-1">Engagement Rate</p>
+                        <h3 class="text-3xl font-extrabold text-navy"><span class="counter" data-target="8.5">0</span>%</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Chart Area -->
+            <div class="bg-card/80 backdrop-blur-sm p-6 rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-white h-[420px] flex flex-col" data-aos="zoom-in" data-aos-duration="800">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-navy">Performance Overview</h3>
+                        <p class="text-sm text-slate-500 mt-1">Followers growth over the last 7 days</p>
+                    </div>
+                    <select class="bg-brand-50 border border-brand-100 text-sm rounded-xl px-4 py-2.5 text-brand-600 font-bold focus:ring-2 focus:ring-brand-500/20 cursor-pointer outline-none transition">
+                        <option>Last 7 Days</option>
+                        <option>Last 30 Days</option>
+                        <option>This Year</option>
+                    </select>
+                </div>
+                <!-- Elegant SVG Area Chart Mockup -->
+                <div class="flex-1 rounded-xl flex items-end justify-center relative overflow-hidden group">
+                    <svg class="absolute bottom-0 left-0 w-full h-full opacity-80" viewBox="0 0 1000 300" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.2" />
+                                <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.0" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M0,300 L0,200 C100,200 150,150 250,180 C350,210 400,100 500,120 C600,140 650,220 750,190 C850,160 900,80 1000,60 L1000,300 Z" fill="url(#chartGradient)"></path>
+                        <path d="M0,200 C100,200 150,150 250,180 C350,210 400,100 500,120 C600,140 650,220 750,190 C850,160 900,80 1000,60" fill="none" stroke="#2563eb" stroke-width="4" stroke-linecap="round"></path>
+                    </svg>
+                    
+                    <!-- Interactive Decorative Points -->
+                    <div class="absolute w-3 h-3 bg-white border-2 border-brand-500 rounded-full left-[25%] bottom-[40%] shadow-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="absolute w-3 h-3 bg-white border-2 border-brand-500 rounded-full left-[50%] bottom-[60%] shadow-md opacity-0 group-hover:opacity-100 transition-opacity delay-75"></div>
+                    <div class="absolute w-3 h-3 bg-white border-2 border-brand-500 rounded-full left-[75%] bottom-[36%] shadow-md opacity-0 group-hover:opacity-100 transition-opacity delay-100"></div>
+                    <div class="absolute w-4 h-4 bg-white border-4 border-brand-500 rounded-full right-[-2px] top-[20%] shadow-lg"></div>
+
+                    <!-- Tooltip mockup -->
+                    <div class="absolute right-[20px] top-[5%] bg-navy text-white text-xs font-bold px-3 py-2 rounded-lg shadow-xl hidden md:block animate-pulse">
+                        +1,240 Followers today
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1. Platform Performance -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Instagram -->
+                <div class="bg-card/80 backdrop-blur-sm p-6 rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-white flex items-center justify-between group hover:border-pink-100 transition-colors" data-aos="fade-up" data-aos-delay="0">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-500 flex items-center justify-center text-white shadow-lg shadow-pink-500/20 group-hover:scale-110 transition-transform">
+                            <i data-lucide="instagram" class="w-6 h-6"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-bold text-navy">Instagram</h4>
+                            <p class="text-xs text-slate-500 font-medium">@alexdanis</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xl font-extrabold text-navy">85.2K</p>
+                        <p class="text-xs font-bold text-emerald-500 flex items-center justify-end"><i data-lucide="trending-up" class="w-3 h-3 mr-1"></i> +2.4%</p>
+                    </div>
+                </div>
+
+                <!-- YouTube -->
+                <div class="bg-card/80 backdrop-blur-sm p-6 rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-white flex items-center justify-between group hover:border-red-100 transition-colors" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-red-600 to-red-400 flex items-center justify-center text-white shadow-lg shadow-red-500/20 group-hover:scale-110 transition-transform">
+                            <i data-lucide="youtube" class="w-6 h-6"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-bold text-navy">YouTube</h4>
+                            <p class="text-xs text-slate-500 font-medium">Alex Danis Tech</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xl font-extrabold text-navy">120K</p>
+                        <p class="text-xs font-bold text-emerald-500 flex items-center justify-end"><i data-lucide="trending-up" class="w-3 h-3 mr-1"></i> +5.1%</p>
+                    </div>
+                </div>
+
+                <!-- Twitter -->
+                <div class="bg-card/80 backdrop-blur-sm p-6 rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-white flex items-center justify-between group hover:border-sky-100 transition-colors" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-sky-500 to-sky-300 flex items-center justify-center text-white shadow-lg shadow-sky-500/20 group-hover:scale-110 transition-transform">
+                            <i data-lucide="twitter" class="w-6 h-6"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-bold text-navy">Twitter</h4>
+                            <p class="text-xs text-slate-500 font-medium">@alex_tech</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xl font-extrabold text-navy">34.5K</p>
+                        <p class="text-xs font-bold text-rose-500 flex items-center justify-end"><i data-lucide="trending-down" class="w-3 h-3 mr-1"></i> -0.8%</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Audience Insights -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Age & Gender -->
+                <div class="bg-card/80 backdrop-blur-sm p-6 rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-white" data-aos="fade-right">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-bold text-navy">Audience Demographics</h3>
+                        <div class="p-2 bg-brand-50 rounded-lg text-brand-600"><i data-lucide="pie-chart" class="w-4 h-4"></i></div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <!-- 18-24 -->
+                        <div>
+                            <div class="flex justify-between text-sm font-bold text-navy mb-1">
+                                <span>18 - 24 Tahun</span>
+                                <span>45%</span>
+                            </div>
+                            <div class="w-full bg-slate-100 rounded-full h-2.5 shadow-inner">
+                                <div class="bg-gradient-to-r from-brand-600 to-brand-400 h-2.5 rounded-full" style="width: 45%"></div>
+                            </div>
+                        </div>
+                        <!-- 25-34 -->
+                        <div>
+                            <div class="flex justify-between text-sm font-bold text-navy mb-1">
+                                <span>25 - 34 Tahun</span>
+                                <span>35%</span>
+                            </div>
+                            <div class="w-full bg-slate-100 rounded-full h-2.5 shadow-inner">
+                                <div class="bg-gradient-to-r from-teal-500 to-teal-300 h-2.5 rounded-full" style="width: 35%"></div>
+                            </div>
+                        </div>
+                        <!-- 35-44 -->
+                        <div>
+                            <div class="flex justify-between text-sm font-bold text-navy mb-1">
+                                <span>35 - 44 Tahun</span>
+                                <span>15%</span>
+                            </div>
+                            <div class="w-full bg-slate-100 rounded-full h-2.5 shadow-inner">
+                                <div class="bg-gradient-to-r from-indigo-500 to-indigo-300 h-2.5 rounded-full" style="width: 15%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-6 border-t border-blue-50 flex justify-around">
+                        <div class="text-center">
+                            <p class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">Male</p>
+                            <p class="text-2xl font-extrabold text-navy">68%</p>
+                        </div>
+                        <div class="w-px bg-blue-50"></div>
+                        <div class="text-center">
+                            <p class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">Female</p>
+                            <p class="text-2xl font-extrabold text-brand-600">32%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Locations -->
+                <div class="bg-card/80 backdrop-blur-sm p-6 rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-white" data-aos="fade-left">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-bold text-navy">Top Locations</h3>
+                        <div class="p-2 bg-brand-50 rounded-lg text-brand-600"><i data-lucide="map-pin" class="w-4 h-4"></i></div>
+                    </div>
+                    
+                    <div class="space-y-5 mt-2">
+                        <div class="flex items-center">
+                            <span class="w-8 h-8 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center font-bold text-xs mr-3">1</span>
+                            <div class="flex-1">
+                                <div class="flex justify-between text-sm font-bold text-navy mb-1">
+                                    <span>Jakarta, Indonesia</span>
+                                    <span>32.5%</span>
+                                </div>
+                                <div class="w-full bg-slate-100 rounded-full h-1.5">
+                                    <div class="bg-brand-500 h-1.5 rounded-full" style="width: 32.5%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-8 h-8 rounded-full bg-brand-50 text-brand-500 flex items-center justify-center font-bold text-xs mr-3">2</span>
+                            <div class="flex-1">
+                                <div class="flex justify-between text-sm font-bold text-navy mb-1">
+                                    <span>Kuala Lumpur, Malaysia</span>
+                                    <span>18.2%</span>
+                                </div>
+                                <div class="w-full bg-slate-100 rounded-full h-1.5">
+                                    <div class="bg-brand-400 h-1.5 rounded-full" style="width: 18.2%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-8 h-8 rounded-full bg-slate-50 text-slate-500 flex items-center justify-center font-bold text-xs mr-3">3</span>
+                            <div class="flex-1">
+                                <div class="flex justify-between text-sm font-bold text-navy mb-1">
+                                    <span>Surabaya, Indonesia</span>
+                                    <span>12.8%</span>
+                                </div>
+                                <div class="w-full bg-slate-100 rounded-full h-1.5">
+                                    <div class="bg-slate-400 h-1.5 rounded-full" style="width: 12.8%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-8 h-8 rounded-full bg-slate-50 text-slate-500 flex items-center justify-center font-bold text-xs mr-3">4</span>
+                            <div class="flex-1">
+                                <div class="flex justify-between text-sm font-bold text-navy mb-1">
+                                    <span>Singapore</span>
+                                    <span>9.4%</span>
+                                </div>
+                                <div class="w-full bg-slate-100 rounded-full h-1.5">
+                                    <div class="bg-slate-300 h-1.5 rounded-full" style="width: 9.4%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Top Performing Content -->
+            <div class="bg-card/80 backdrop-blur-sm rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-white p-6" data-aos="fade-up">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-navy">Top Performing Content</h3>
+                        <p class="text-sm text-slate-500 mt-1">Posts with the highest engagement this month</p>
+                    </div>
+                    <button class="text-sm font-bold bg-brand-50 text-brand-600 px-4 py-2 rounded-xl hover:bg-brand-100 transition">See Gallery</button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Post 1 -->
+                    <div class="group rounded-2xl overflow-hidden border border-blue-50 hover:shadow-xl transition-all duration-300 bg-white">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&h=400&fit=crop" alt="Desk Setup" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-3 right-3 bg-black/50 backdrop-blur-md text-white text-xs font-bold px-2 py-1 rounded-lg flex items-center">
+                                <i data-lucide="video" class="w-3 h-3 mr-1"></i> Reels
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-navy text-sm mb-3 line-clamp-1">My Minimalist Desk Setup 2024! 💻✨</h4>
+                            <div class="flex justify-between text-slate-500 text-xs font-bold">
+                                <span class="flex items-center text-rose-500 bg-rose-50 px-2 py-1 rounded-md"><i data-lucide="heart" class="w-3 h-3 mr-1"></i> 24.5K</span>
+                                <span class="flex items-center"><i data-lucide="message-circle" class="w-3 h-3 mr-1"></i> 1.2K</span>
+                                <span class="flex items-center"><i data-lucide="bookmark" class="w-3 h-3 mr-1"></i> 8.4K</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Post 2 -->
+                    <div class="group rounded-2xl overflow-hidden border border-blue-50 hover:shadow-xl transition-all duration-300 bg-white">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=500&h=400&fit=crop" alt="Review" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-3 right-3 bg-black/50 backdrop-blur-md text-white text-xs font-bold px-2 py-1 rounded-lg flex items-center">
+                                <i data-lucide="image" class="w-3 h-3 mr-1"></i> Carousel
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-navy text-sm mb-3 line-clamp-1">Review Jujur Gadget Terbaru Apple 🍎</h4>
+                            <div class="flex justify-between text-slate-500 text-xs font-bold">
+                                <span class="flex items-center text-rose-500 bg-rose-50 px-2 py-1 rounded-md"><i data-lucide="heart" class="w-3 h-3 mr-1"></i> 18.2K</span>
+                                <span class="flex items-center"><i data-lucide="message-circle" class="w-3 h-3 mr-1"></i> 856</span>
+                                <span class="flex items-center"><i data-lucide="bookmark" class="w-3 h-3 mr-1"></i> 4.1K</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Post 3 -->
+                    <div class="group rounded-2xl overflow-hidden border border-blue-50 hover:shadow-xl transition-all duration-300 bg-white">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=500&h=400&fit=crop" alt="Tips" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-3 right-3 bg-black/50 backdrop-blur-md text-white text-xs font-bold px-2 py-1 rounded-lg flex items-center">
+                                <i data-lucide="video" class="w-3 h-3 mr-1"></i> TikTok
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-navy text-sm mb-3 line-clamp-1">5 Tips Coding Lebih Cepat & Efisien 🚀</h4>
+                            <div class="flex justify-between text-slate-500 text-xs font-bold">
+                                <span class="flex items-center text-rose-500 bg-rose-50 px-2 py-1 rounded-md"><i data-lucide="heart" class="w-3 h-3 mr-1"></i> 15.9K</span>
+                                <span class="flex items-center"><i data-lucide="message-circle" class="w-3 h-3 mr-1"></i> 432</span>
+                                <span class="flex items-center"><i data-lucide="bookmark" class="w-3 h-3 mr-1"></i> 12.5K</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity Table -->
+            <div class="bg-card/80 backdrop-blur-sm rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-white overflow-hidden">
+                <div class="p-6 border-b border-blue-50/50 flex justify-between items-center">
+                    <h3 class="text-lg font-bold text-navy">Recent Posts</h3>
+                    <button class="text-sm font-semibold text-brand-600 hover:text-brand-800 transition">View All</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-brand-50/30 text-slate-500 text-[11px] font-bold uppercase tracking-widest">
+                                <th class="p-4 pl-6">Content</th>
+                                <th class="p-4">Date</th>
+                                <th class="p-4">Likes</th>
+                                <th class="p-4">Comments</th>
+                                <th class="p-4">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm">
+                            <tr class="border-b border-blue-50/30 hover:bg-brand-50/40 transition duration-200" data-aos="fade-left" data-aos-delay="0">
+                                <td class="p-4 pl-6 flex items-center">
+                                    <div class="w-10 h-10 bg-slate-200 rounded-xl mr-4 overflow-hidden shadow-sm">
+                                        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=100&h=100&fit=crop" alt="Post" class="w-full h-full object-cover">
+                                    </div>
+                                    <span class="font-bold text-navy">Top 5 Setup WFH 2024</span>
+                                </td>
+                                <td class="p-4 text-slate-500 font-medium">Oct 24, 2024</td>
+                                <td class="p-4 font-bold text-navy">12.5K</td>
+                                <td class="p-4 text-slate-500 font-medium">342</td>
+                                <td class="p-4"><span class="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-xs font-bold border border-emerald-100 shadow-sm">Published</span></td>
+                            </tr>
+                            <tr class="border-b border-blue-50/30 hover:bg-brand-50/40 transition duration-200" data-aos="fade-left" data-aos-delay="100">
+                                <td class="p-4 pl-6 flex items-center">
+                                    <div class="w-10 h-10 bg-slate-200 rounded-xl mr-4 overflow-hidden shadow-sm">
+                                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=100&h=100&fit=crop" alt="Post" class="w-full h-full object-cover">
+                                    </div>
+                                    <span class="font-bold text-navy">Review Gadget Terbaru</span>
+                                </td>
+                                <td class="p-4 text-slate-500 font-medium">Oct 21, 2024</td>
+                                <td class="p-4 font-bold text-navy">8.2K</td>
+                                <td class="p-4 text-slate-500 font-medium">156</td>
+                                <td class="p-4"><span class="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-xs font-bold border border-emerald-100 shadow-sm">Published</span></td>
+                            </tr>
+                            <tr class="hover:bg-brand-50/40 transition duration-200" data-aos="fade-left" data-aos-delay="200">
+                                <td class="p-4 pl-6 flex items-center">
+                                    <div class="w-10 h-10 bg-slate-100 rounded-xl mr-4 flex items-center justify-center text-slate-400 border border-slate-200 border-dashed">
+                                        <i data-lucide="image" class="w-5 h-5"></i>
+                                    </div>
+                                    <span class="font-bold text-navy">Vlog Behind The Scene</span>
+                                </td>
+                                <td class="p-4 text-slate-400 font-medium">Draft</td>
+                                <td class="p-4 font-bold text-slate-400">-</td>
+                                <td class="p-4 text-slate-400 font-medium">-</td>
+                                <td class="p-4"><span class="px-3 py-1 bg-slate-50 text-slate-500 rounded-full text-xs font-bold border border-slate-200 shadow-sm">Draft</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Initialize AOS animations
+        AOS.init({
+            duration: 600,
+            easing: 'ease-out-cubic',
+            once: true, // Only animate once for dashboard
+            offset: 50,
+        });
+
+        // Number Counter Animation Function
+        const animateNumbers = () => {
+            const counters = document.querySelectorAll('.counter');
+            const speed = 200; // The lower the slower
+
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const isFloat = counter.getAttribute('data-target').includes('.');
+                
+                const updateCount = () => {
+                    const current = +counter.innerText;
+                    const increment = target / speed;
+
+                    if (current < target) {
+                        if(isFloat) {
+                            counter.innerText = (current + increment).toFixed(1);
+                        } else {
+                            counter.innerText = Math.ceil(current + increment);
+                        }
+                        setTimeout(updateCount, 1);
+                    } else {
+                        // Formatting output logic
+                        if(target >= 1000 && !isFloat) {
+                            counter.innerText = (target / 1000).toFixed(1) + 'K';
+                        } else {
+                            counter.innerText = target;
+                        }
+                    }
+                };
+                
+                // Add Intersection Observer to trigger counting only when visible
+                const observer = new IntersectionObserver((entries) => {
+                    if(entries[0].isIntersecting) {
+                        updateCount();
+                        observer.disconnect(); // Stop observing once counted
+                    }
+                });
+                observer.observe(counter);
+            });
+        }
+
+        // Run animation on load
+        window.addEventListener('load', animateNumbers);
+    </script>
+</body>
+</html>

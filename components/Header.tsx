@@ -42,24 +42,24 @@ const Header: React.FC<HeaderProps> = ({ isScrolled }) => {
   const handleMouseLeave = () => setPillStyle((prev) => ({ ...prev, opacity: 0 }));
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-[#0A1931]/95 backdrop-blur-xl shadow-2xl py-3' : 'bg-transparent py-6'}`}>
+    <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-[#0A1931] border-b border-white/5 py-3' : 'bg-transparent py-6'}`}>
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between">
           <a href="/#home" className="flex items-center gap-3 md:gap-5 group relative z-10">
             <div className="relative w-12 h-12 md:w-16 md:h-16 flex items-center justify-center">
-              <div className="absolute inset-0 bg-white rounded-full shadow-[0_0_20px_rgba(255,255,255,0.3)] border-2 border-white transform transition-transform group-hover:scale-110"></div>
+              <div className="absolute inset-0 bg-white rounded-full border-2 border-white transform transition-transform group-hover:scale-105"></div>
               <img src={logoUrl} alt="Logo" className="relative z-10 w-8 h-8 md:w-12 md:h-12 object-contain" />
             </div>
             <div className="flex flex-col">
-              <span className="text-xl md:text-4xl font-black text-white tracking-tighter leading-none transition-colors group-hover:text-[#1E90FF]">
+              <span className="text-xl md:text-3xl font-black text-white tracking-tighter leading-none transition-colors group-hover:text-[#1E90FF]">
                 LULUSIN <span className="text-white">KUY</span>
               </span>
-              <span className="text-[8px] md:text-[12px] text-[#1E90FF] font-black tracking-[0.2em] md:tracking-[0.3em] mt-1 uppercase">Academic Partner</span>
+              <span className="text-[8px] md:text-[10px] text-[#1E90FF] font-black tracking-[0.2em] mt-1 uppercase">Academic Partner</span>
             </div>
           </a>
 
           <nav className="hidden lg:flex items-center relative" ref={navRef}>
-            <div className="absolute h-full bg-[#1E90FF]/20 rounded-2xl transition-all duration-300 ease-out pointer-events-none" style={{ left: `${pillStyle.left}px`, width: `${pillStyle.width}px`, opacity: pillStyle.opacity, boxShadow: '0 0 20px rgba(30,144,255,0.2)', border: '1px solid rgba(30,144,255,0.3)' }} />
+            <div className="absolute h-full bg-[#1E90FF]/10 rounded-xl transition-all duration-300 ease-out pointer-events-none" style={{ left: `${pillStyle.left}px`, width: `${pillStyle.width}px`, opacity: pillStyle.opacity }} />
 
             <div className="flex items-center space-x-0">
               {navLinks.map((link) => (

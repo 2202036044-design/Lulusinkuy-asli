@@ -9,22 +9,43 @@ const WebDevPage: React.FC = () => {
             title: 'Web Company Profile',
             desc: 'Desain elegan untuk perusahaan dan instansi.',
             img: '/asset/gambarpreviewporto/jasa-website-tugas-skripsi-lulusinkuy-company-profile.webp',
-            link: '/lulusinkuy-company-profile/index.html'//
+            link: '/lulusinkuy-company-profile/index.html'
         },
         {
             id: 2,
             title: 'Toko Online (e-commerce) Professional',
             desc: 'E-commerce responsif siap jualan.',
             img: '/asset/gambarpreviewporto/jasa-website-tugas-skripsi-lulusinkuy-e-commerce.webp',
-            link: '/lulusinkuy-e-commerce/index.html'//
+            link: '/lulusinkuy-e-commerce/index.html'
         },
         {
             id: 3,
             title: 'Web Dashboard Professional',
             desc: 'Optimasi pencatatan dan tracking data.',
             img: '/asset/gambarpreviewporto/jasa-website-tugas-skripsi-lulusinkuy-dashboard-proffessional.webp',
-            link: '/lulusinkuy-dashboard/index.html'//
-        }
+            link: '/lulusinkuy-dashboard/index.html'
+        },
+        {
+            id: 4,
+            title: 'Web Agency dan Portofolio',
+            desc: 'Tunjukan hasil karya dan kerjamu lewat portofolio web modern.',
+            img: '/asset/gambarpreviewporto/jasa-website-tugas-skripsi-lulusinkuy-portofolio.webp',
+            link: '/lulusinkuy-agency-dan-portofolio/index.html'
+        },
+        {
+            id: 5,
+            title: 'Web Community and Organization',
+            desc: 'Kenalkan komunitasmu ke dunia luar lewat website modern.',
+            img: '/asset/gambarpreviewporto/jasa-website-tugas-skripsi-lulusinkuy-community.webp',
+            link: '/lulusinkuy-community/index.html'
+        },
+        {
+            id: 6,
+            title: 'Web Bussiness and Services',
+            desc: 'Optimasi Bisnis dan Jasamu Lewat Website yang Responsif.',
+            img: '/asset/gambarpreviewporto/jasa-website-tugas-skripsi-lulusinkuy-bussines-services.webp',
+            link: '/lulusinkuy-bussines-and-services/index.html'
+        },
     ];
 
     return (
@@ -49,29 +70,27 @@ const WebDevPage: React.FC = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {portfolios.map((item) => (
-                        <Link
+                        <a
                             key={item.id}
-                            to={item.link}
+                            href={item.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block group"
+                            className="block group relative overflow-hidden rounded-[2rem]"
                         >
-                            <div className="bg-[#12263F] rounded-[2rem] overflow-hidden border border-white/5 group-hover:border-[#1E90FF]/40 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl h-full flex flex-col">
+                            <div className="bg-[#12263F] border border-white/5 group-hover:border-[#1E90FF]/40 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl h-full flex flex-col relative overflow-hidden">
                                 <div className="aspect-video overflow-hidden relative">
-                                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
+                                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
                                     <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                                 </div>
                                 <div className="p-6 flex-1 flex flex-col">
                                     <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#1E90FF] transition-colors">{item.title}</h3>
                                     <p className="text-white/50 text-sm mb-6 line-clamp-2 md:line-clamp-none flex-1">{item.desc}</p>
-                                    <div
-                                        className="flex items-center gap-2 text-[#1E90FF] text-sm font-bold uppercase tracking-widest group-hover:text-white transition-colors"
-                                    >
+                                    <div className="flex items-center gap-2 text-[#1E90FF] text-sm font-bold uppercase tracking-widest group-hover:text-white transition-colors">
                                         Lihat Detail <ExternalLink size={16} />
                                     </div>
                                 </div>
                             </div>
-                        </Link>
+                        </a>
                     ))}
                 </div>
             </div>

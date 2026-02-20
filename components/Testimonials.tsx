@@ -1,6 +1,6 @@
-
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+import ScrollReveal from './ScrollReveal';
 
 interface TestimonyItem {
   name: string;
@@ -47,7 +47,6 @@ const Testimonials: React.FC = () => {
   }, []);
 
   const totalItems = TESTIMONY_DATA.length;
-  const visibleSlides = isMobile ? 1 : 3;
   const maxIndex = totalItems - 1;
 
   const handleNext = useCallback(() => {
@@ -69,54 +68,55 @@ const Testimonials: React.FC = () => {
 
   return (
     <section id="testimoni" className="py-24 bg-[#0A1931] overflow-hidden relative">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#1E90FF]/5 blur-[120px] rounded-full pointer-events-none"></div>
+      {/* Reduced blur */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#1E90FF]/5 blur-[80px] rounded-full pointer-events-none"></div>
 
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight">Testimoni</h2>
+        <ScrollReveal direction="up" once={false} className="text-center mb-16">
+          <h2 className="text-4xl md:text-6xl font-black mb-4 tracking-tighter uppercase">Testimoni</h2>
           <div className="w-24 h-1.5 bg-[#1E90FF] mx-auto rounded-full"></div>
-        </div>
+        </ScrollReveal>
 
-        <div 
+        <div
           className="relative group"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
           {/* Slider Content */}
           <div className="overflow-visible py-8">
-            <div 
+            <div
               className="flex transition-transform duration-700 ease-in-out"
-              style={{ 
+              style={{
                 transform: `translateX(-${currentIndex * (isMobile ? 100 : 33.3333)}%)`,
               }}
             >
               {TESTIMONY_DATA.map((item, index) => (
-                <div 
+                <div
                   key={index}
                   className="flex-shrink-0 px-3 transition-opacity duration-500"
-                  style={{ 
+                  style={{
                     width: isMobile ? '100%' : '33.3333%',
                     opacity: isMobile ? (currentIndex === index ? 1 : 0.3) : 1
                   }}
                 >
-                  <div className={`h-full bg-[#112240]/60 backdrop-blur-md border border-white/5 rounded-3xl p-8 md:p-10 flex flex-col relative group/card hover:bg-[#112240] hover:border-[#1E90FF]/30 transition-all duration-300 shadow-xl ${isMobile ? 'mx-auto max-w-[320px] sm:max-w-md' : ''}`}>
+                  <div className={`h-full bg-[#112240] border border-white/5 rounded-[2rem] p-8 md:p-10 flex flex-col relative group/card hover:border-[#1E90FF]/30 transition-all duration-300 shadow-xl ${isMobile ? 'mx-auto max-w-[320px] sm:max-w-md' : ''}`}>
                     {/* Floating Quote Icon */}
-                    <div className="absolute top-6 right-8 text-[#1E90FF]/10 group-hover/card:text-[#1E90FF]/20 transition-colors pointer-events-none">
+                    <div className="absolute top-6 right-8 text-[#1E90FF]/5 transition-colors pointer-events-none">
                       <Quote size={isMobile ? 60 : 80} fill="currentColor" stroke="none" />
                     </div>
 
                     <div className="relative z-10 flex flex-col h-full">
                       <div className="mb-10">
-                        <p className="text-lg md:text-2xl text-white leading-relaxed italic font-medium">
+                        <p className="text-lg md:text-xl text-white/90 leading-relaxed italic font-medium">
                           "{item.text}"
                         </p>
                       </div>
 
                       <div className="mt-auto pt-8 border-t border-white/5">
-                        <h4 className="text-xl md:text-2xl font-bold text-white group-hover/card:text-[#1E90FF] transition-colors mb-1">
+                        <h4 className="text-xl font-black text-white group-hover/card:text-[#1E90FF] transition-colors mb-1 uppercase tracking-tight">
                           {item.name}
                         </h4>
-                        <p className="text-[#1E90FF] text-sm md:text-base font-bold uppercase tracking-wider">
+                        <p className="text-[#1E90FF] text-[10px] font-black uppercase tracking-widest leading-none">
                           {item.university}
                         </p>
                       </div>
@@ -128,18 +128,18 @@ const Testimonials: React.FC = () => {
           </div>
 
           {/* Navigation Arrows */}
-          <div className="absolute top-1/2 -translate-y-1/2 left-0 lg:-left-12 z-20">
-            <button 
+          <div className="absolute top-1/2 -translate-y-1/2 left-0 lg:-left-6 z-20">
+            <button
               onClick={handlePrev}
-              className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#0A1931]/90 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-[#1E90FF] transition-all transform hover:scale-110 active:scale-95 shadow-lg"
+              className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#112240] border border-white/10 flex items-center justify-center text-white hover:bg-[#1E90FF] transition-all transform hover:scale-110 active:scale-95 shadow-lg"
             >
               <ChevronLeft size={24} />
             </button>
           </div>
-          <div className="absolute top-1/2 -translate-y-1/2 right-0 lg:-right-12 z-20">
-            <button 
+          <div className="absolute top-1/2 -translate-y-1/2 right-0 lg:-right-6 z-20">
+            <button
               onClick={handleNext}
-              className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#0A1931]/90 backdrop-blur-md border border-white/10 flex items-center justify-center text-white hover:bg-[#1E90FF] transition-all transform hover:scale-110 active:scale-95 shadow-lg"
+              className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#112240] border border-white/10 flex items-center justify-center text-white hover:bg-[#1E90FF] transition-all transform hover:scale-110 active:scale-95 shadow-lg"
             >
               <ChevronRight size={24} />
             </button>
@@ -152,12 +152,13 @@ const Testimonials: React.FC = () => {
             <button
               key={idx}
               onClick={() => setCurrentIndex(idx)}
-              className={`h-2 transition-all rounded-full ${currentIndex === idx ? 'w-8 bg-[#1E90FF]' : 'w-2 bg-white/20'}`}
+              className={`h-1 transition-all rounded-full ${currentIndex === idx ? 'w-8 bg-[#1E90FF]' : 'w-2 bg-white/10'}`}
               aria-label={`Go to slide ${idx + 1}`}
             />
           ))}
         </div>
       </div>
+
 
       <style>{`
         #testimoni {
