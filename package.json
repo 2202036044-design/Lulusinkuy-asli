@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "@google/genai": "^1.38.0",
+    "buffer": "^6.0.3",
+    "gray-matter": "^4.0.3",
     "lucide-react": "^0.460.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0",
     "react-router-dom": "^7.13.0"
   },
   "devDependencies": {

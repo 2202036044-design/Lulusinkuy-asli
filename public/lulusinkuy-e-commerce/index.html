@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curated Haven | Premium Home Essentials</title>
+    
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS CSS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* Variabel Warna CSS */
+        :root {
+            --white: #FFFFFF;
+            --light-gray: #F9F9F9;
+            --mid-gray: #E0E0E0;
+            --soft-gold: #D4AF37;
+            --pale-peach: #FFDAB9;
+            --text-dark: #2C2C2C;
+            --text-light: #777777;
+        }
+
+        /* Reset & Base Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--white);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
+        ul { list-style: none; }
+        img { max-width: 100%; height: auto; display: block; }
+        h1, h2, h3, h4 { font-weight: 500; letter-spacing: 1px; }
+
+        /* --- Navbar --- */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            padding: 25px 5%; display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; transition: all 0.4s ease;
+            background: transparent; color: var(--white);
+        }
+        nav.scrolled {
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.75) 100%);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: var(--text-dark);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 15px 5%;
+        }
+        .logo { font-size: 1.5rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+        .nav-center { display: flex; gap: 30px; }
+        .nav-center a { font-size: 0.95rem; position: relative; }
+        .nav-center a::after {
+            content: ''; position: absolute; width: 0; height: 2px;
+            bottom: -5px; left: 0; background-color: var(--soft-gold); transition: width 0.3s ease;
+        }
+        .nav-center a:hover::after { width: 100%; }
+        .nav-icons { display: flex; gap: 20px; font-size: 1.2rem; cursor: pointer; }
+        .nav-icons i:hover { color: var(--soft-gold); }
+        .cart-icon { position: relative; }
+        .cart-badge {
+            position: absolute; top: -8px; right: -10px;
+            background-color: var(--soft-gold); color: var(--white);
+            font-size: 0.6rem; font-weight: 600; padding: 2px 6px;
+            border-radius: 50%;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            position: relative; height: 100vh;
+            background-image: url('https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover; background-position: center;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; color: var(--white);
+        }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.35); }
+        .hero-content { position: relative; z-index: 1; max-width: 800px; padding: 0 20px; }
+        .hero h1 { font-size: 4.5rem; margin-bottom: 20px; font-weight: 300; }
+        .hero p { font-size: 1.2rem; margin-bottom: 40px; letter-spacing: 1px; font-weight: 300; }
+        .btn-primary {
+            display: inline-block; padding: 15px 40px;
+            background-color: var(--white); color: var(--text-dark);
+            border: 1px solid var(--white); font-size: 1rem;
+            text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: var(--soft-gold); color: var(--white); border-color: var(--soft-gold);
+        }
+
+        /* --- Global Section Styles --- */
+        .section-padding { padding: 100px 5%; }
+        .section-title { font-size: 2.5rem; text-align: center; margin-bottom: 60px; color: var(--text-dark); }
+        .section-title span { color: var(--soft-gold); font-style: italic; }
+
+        /* --- Categories Section --- */
+        .categories { background-color: var(--white); }
+        .category-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto;
+        }
+        .category-card { position: relative; height: 400px; overflow: hidden; cursor: pointer; }
+        .category-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .category-overlay {
+            position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+            display: flex; align-items: flex-end; padding: 30px; transition: background 0.3s ease;
+        }
+        .category-card:hover img { transform: scale(1.08); }
+        .category-card:hover .category-overlay { background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2)); }
+        .category-title { color: var(--white); font-size: 1.5rem; font-weight: 500; letter-spacing: 1px; }
+
+        /* --- Featured Products Section --- */
+        .featured-products { background-color: var(--light-gray); }
+        .product-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto;
+        }
+        .product-card {
+            background-color: var(--white); overflow: hidden; transition: transform 0.4s ease, box-shadow 0.4s ease;
+            position: relative; group;
+        }
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08); }
+        .img-container { position: relative; overflow: hidden; height: 380px; }
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .product-card:hover .product-img { transform: scale(1.05); }
+        .badge {
+            position: absolute; top: 15px; left: 15px; background: var(--text-dark); color: var(--white);
+            padding: 5px 12px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; z-index: 2;
+        }
+        .badge.new { background: var(--soft-gold); }
+        .add-to-cart {
+            position: absolute; bottom: -50px; left: 0; width: 100%; padding: 15px;
+            background: rgba(255,255,255,0.95); text-align: center; font-weight: 500;
+            cursor: pointer; transition: bottom 0.3s ease; text-transform: uppercase; font-size: 0.9rem;
+        }
+        .add-to-cart:hover { background: var(--soft-gold); color: var(--white); }
+        .product-card:hover .add-to-cart { bottom: 0; }
+        .product-info { padding: 25px 20px; text-align: center; }
+        .product-category { font-size: 0.8rem; color: var(--text-light); text-transform: uppercase; margin-bottom: 5px; }
+        .product-name { font-size: 1.2rem; margin-bottom: 10px; }
+        .product-price { color: var(--soft-gold); font-weight: 600; font-size: 1.1rem; }
+
+        /* --- About Us / Philosophy Section --- */
+        .about-section { background-color: var(--white); }
+        .about-container { display: flex; max-width: 1200px; margin: 0 auto; gap: 60px; align-items: center; }
+        .about-img { flex: 1; height: 500px; }
+        .about-img img { width: 100%; height: 100%; object-fit: cover; }
+        .about-text { flex: 1; padding-right: 40px; }
+        .about-text h2 { font-size: 3rem; line-height: 1.2; margin-bottom: 20px; }
+        .about-text p { color: var(--text-light); font-size: 1.1rem; line-height: 1.8; margin-bottom: 30px; }
+        .about-text .signature { font-family: 'Times New Roman', serif; font-style: italic; font-size: 1.5rem; color: var(--soft-gold); }
+
+        /* --- Testimonials Section --- */
+        .testimonials { background-color: var(--text-dark); color: var(--white); text-align: center; }
+        .testimonials .section-title { color: var(--white); }
+        .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; }
+        .testi-card { padding: 40px 30px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.02); }
+        .stars { color: var(--soft-gold); margin-bottom: 20px; }
+        .testi-text { font-style: italic; font-weight: 300; margin-bottom: 20px; font-size: 1.05rem; line-height: 1.7; }
+        .testi-author { font-weight: 600; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; color: var(--mid-gray); }
+
+        /* --- Newsletter Section --- */
+        .newsletter { background-color: var(--pale-peach); text-align: center; }
+        .news-container { max-width: 600px; margin: 0 auto; }
+        .news-container h2 { font-size: 2.5rem; margin-bottom: 15px; }
+        .news-container p { color: #555; margin-bottom: 30px; }
+        .news-form { display: flex; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .news-form input { flex: 1; padding: 15px 25px; border: none; outline: none; font-family: 'Poppins'; font-size: 1rem; }
+        .news-form button { padding: 15px 30px; background: var(--text-dark); color: var(--white); border: none; font-family: 'Poppins'; cursor: pointer; transition: background 0.3s; text-transform: uppercase; font-weight: 500; }
+        .news-form button:hover { background: var(--soft-gold); }
+
+        /* --- Footer --- */
+        footer { background-color: #1A1A1A; color: var(--white); padding: 80px 5% 30px; }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 50px; margin-bottom: 60px; }
+        .footer-col h3 { font-size: 1.2rem; margin-bottom: 25px; color: var(--soft-gold); }
+        .footer-col ul li { margin-bottom: 15px; }
+        .footer-col a { color: #999; }
+        .footer-col a:hover { color: var(--white); padding-left: 5px; }
+        .footer-col p { color: #999; line-height: 1.8; }
+        .social-icons { display: flex; gap: 15px; margin-top: 20px; }
+        .social-icons a { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; transition: background 0.3s; color: var(--white); }
+        .social-icons a:hover { background: var(--soft-gold); }
+        .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1); color: #777; font-size: 0.9rem; }
+
+        /* --- Responsif (Mobile) --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .nav-center { display: none; /* Disembunyikan untuk mobile, bisa dibuat hamburger menu nantinya */ }
+            .about-container { flex-direction: column-reverse; }
+            .about-text { padding-right: 0; text-align: center; }
+            .news-form { flex-direction: column; }
+            .news-form button { margin-top: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav id="navbar">
+        <div class="logo">Curated Haven</div>
+        <ul class="nav-center">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#categories">Categories</a></li>
+            <li><a href="#shop">Shop</a></li>
+            <li><a href="#about">Philosophy</a></li>
+        </ul>
+        <div class="nav-icons">
+            <i class="fa-regular fa-user"></i>
+            <div class="cart-icon">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span class="cart-badge">2</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero" id="home">
+        <div class="hero-overlay"></div>
+        <div class="hero-content" data-aos="fade-up" data-aos-duration="1500">
+            <h1>Elevate Your Space</h1>
+            <p>Discover minimal, high-quality essentials designed to bring peace and sophistication to your everyday living.</p>
+            <a href="#shop" class="btn-primary">Explore Collection</a>
+        </div>
+    </header>
+
+    <!-- Categories Section -->
+    <section class="categories section-padding" id="categories">
+        <h2 class="section-title" data-aos="fade-up">Shop by <span>Category</span></h2>
+        <div class="category-grid">
+            <div class="category-card" data-aos="fade-up" data-aos-delay="100">
+                <img src="https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Decor">
+                <div class="category-overlay">
+                    <h3 class="category-title">Minimalist Decor</h3>
+                </div>
+            </div>
+            <div class="category-card" data-aos="fade-up" data-aos-delay="200">
+                <img src="https://images.unsplash.com/photo-1538688525198-9b88f6f53126?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Furniture">
+                <div class="category-overlay">
+                    <h3 class="category-title">Modern Furniture</h3>
+                </div>
+            </div>
+            <div class="category-card" data-aos="fade-up" data-aos-delay="300">
+                <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Textiles">
+                <div class="category-overlay">
+                    <h3 class="category-title">Soft Textiles</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section class="featured-products section-padding" id="shop">
+        <h2 class="section-title" data-aos="fade-up">Curated <span>Essentials</span></h2>
+        
+        <div class="product-grid">
+            <!-- Produk 1 -->
+            <div class="product-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="img-container">
+                    <span class="badge new">New</span>
+                    <img src="https://images.unsplash.com/photo-1581783898377-1c85bf937427?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Ceramic Vase" class="product-img">
+                    <div class="add-to-cart">Add to Cart - Rp 850.000</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Decor</p>
+                    <h3 class="product-name">Artisan Ceramic Vase</h3>
+                    <p class="product-price">Rp 850.000</p>
+                </div>
+            </div>
+
+            <!-- Produk 2 -->
+            <div class="product-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="img-container">
+                    <img src="https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Desk Lamp" class="product-img">
+                    <div class="add-to-cart">Add to Cart - Rp 1.400.000</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Lighting</p>
+                    <h3 class="product-name">Brass Arch Lamp</h3>
+                    <p class="product-price">Rp 1.400.000</p>
+                </div>
+            </div>
+
+            <!-- Produk 3 -->
+            <div class="product-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="img-container">
+                    <span class="badge">Bestseller</span>
+                    <img src="https://images.unsplash.com/photo-1579656381226-5fc0f0100c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Linen Cushion" class="product-img">
+                    <div class="add-to-cart">Add to Cart - Rp 450.000</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Textiles</p>
+                    <h3 class="product-name">Natural Linen Cushion</h3>
+                    <p class="product-price">Rp 450.000</p>
+                </div>
+            </div>
+
+            <!-- Produk 4 -->
+            <div class="product-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="img-container">
+                    <img src="https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Lounge Chair" class="product-img">
+                    <div class="add-to-cart">Add to Cart - Rp 3.200.000</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Furniture</p>
+                    <h3 class="product-name">Oda Lounge Chair</h3>
+                    <p class="product-price">Rp 3.200.000</p>
+                </div>
+            </div>
+
+            <!-- Produk 5 -->
+            <div class="product-card" data-aos="fade-up" data-aos-delay="500">
+                <div class="img-container">
+                    <img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Ceramic Bowls" class="product-img">
+                    <div class="add-to-cart">Add to Cart - Rp 650.000</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Kitchen</p>
+                    <h3 class="product-name">Earthy Ceramic Bowl Set</h3>
+                    <p class="product-price">Rp 650.000</p>
+                </div>
+            </div>
+
+            <!-- Produk 6 -->
+            <div class="product-card" data-aos="fade-up" data-aos-delay="600">
+                <div class="img-container">
+                    <img src="https://images.unsplash.com/photo-1580828369019-2238ef8147d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Throw Blanket" class="product-img">
+                    <div class="add-to-cart">Add to Cart - Rp 550.000</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Textiles</p>
+                    <h3 class="product-name">Chunky Woven Throw</h3>
+                    <p class="product-price">Rp 550.000</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section class="about-section section-padding" id="about">
+        <div class="about-container">
+            <div class="about-text" data-aos="fade-right">
+                <h2>Our <span>Philosophy</span></h2>
+                <p>Di Curated Haven, kami percaya bahwa rumah Anda adalah tempat perlindungan. Kami mengurasi setiap koleksi dengan cermat, memastikan setiap barang tidak hanya memiliki fungsi, tetapi juga membawa ketenangan visual melalui garis minimalis dan palet warna netral.</p>
+                <p>Kami bekerja sama dengan pengrajin lokal dan internasional yang memiliki dedikasi terhadap material berkualitas tinggi dan praktik berkelanjutan. Ciptakan ruang yang menginspirasi kehidupan sehari-hari Anda.</p>
+                <div class="signature">Curated Haven Team</div>
+            </div>
+            <div class="about-img" data-aos="fade-left">
+                <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Minimalist Interior Design">
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section class="featured-products section-padding" id="shop">
+        <h2 class="section-title" data-aos="fade-up">Curated <span>Essentials</span></h2>
+        
+        <div class="product-grid">
+            <!-- Produk 1 -->
+            <div class="product-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="img-container">
+                    <span class="badge new">New</span>
+                    <img src="https://images.unsplash.com/photo-1578500494198-246f612d3b3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Ceramic Vase" class="product-img">
+                    <div class="add-to-cart">Add to Cart - Rp 850.000</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Decor</p>
+                    <h3 class="product-name">Artisan Ceramic Vase</h3>
+                    <p class="product-price">Rp 850.000</p>
+                </div>
+            </div>
+
+            <!-- Produk 2 -->
+            <div class="product-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="img-container">
+                    <img src="https://images.unsplash.com/photo-1507473885765-e6ed057f7821?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Desk Lamp" class="product-img">
+                    <div class="add-to-cart">Add to Cart - Rp 1.400.000</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Lighting</p>
+                    <h3 class="product-name">Brass Arch Lamp</h3>
+                    <p class="product-price">Rp 1.400.000</p>
+                </div>
+            </div>
+
+            <!-- Produk 3 -->
+            <div class="product-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="img-container">
+                    <span class="badge">Bestseller</span>
+                    <img src="https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Linen Cushion" class="product-img">
+                    <div class="add-to-cart">Add to Cart - Rp 450.000</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Textiles</p>
+                    <h3 class="product-name">Natural Linen Cushion</h3>
+                    <p class="product-price">Rp 450.000</p>
+                </div>
+            </div>
+
+            <!-- Produk 4 -->
+            <div class="product-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="img-container">
+                    <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Lounge Chair" class="product-img">
+                    <div class="add-to-cart">Add to Cart - Rp 3.200.000</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Furniture</p>
+                    <h3 class="product-name">Oda Lounge Chair</h3>
+                    <p class="product-price">Rp 3.200.000</p>
+                </div>
+            </div>
+
+            <!-- Produk 5 -->
+            <div class="product-card" data-aos="fade-up" data-aos-delay="500">
+                <div class="img-container">
+                    <img src="https://images.unsplash.com/photo-1611077543163-f2730a10dd33?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Ceramic Bowls" class="product-img">
+                    <div class="add-to-cart">Add to Cart - Rp 650.000</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Kitchen</p>
+                    <h3 class="product-name">Earthy Ceramic Bowl Set</h3>
+                    <p class="product-price">Rp 650.000</p>
+                </div>
+            </div>
+
+            <!-- Produk 6 -->
+            <div class="product-card" data-aos="fade-up" data-aos-delay="600">
+                <div class="img-container">
+                    <img src="https://images.unsplash.com/photo-1528318269466-6b22eb559981?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Throw Blanket" class="product-img">
+                    <div class="add-to-cart">Add to Cart - Rp 550.000</div>
+                </div>
+                <div class="product-info">
+                    <p class="product-category">Textiles</p>
+                    <h3 class="product-name">Chunky Woven Throw</h3>
+                    <p class="product-price">Rp 550.000</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section class="about-section section-padding" id="about">
+        <div class="about-container">
+            <div class="about-text" data-aos="fade-right">
+                <h2>Our <span>Philosophy</span></h2>
+                <p>Di Curated Haven, kami percaya bahwa rumah Anda adalah tempat perlindungan. Kami mengurasi setiap koleksi dengan cermat, memastikan setiap barang tidak hanya memiliki fungsi, tetapi juga membawa ketenangan visual melalui garis minimalis dan palet warna netral.</p>
+                <p>Kami bekerja sama dengan pengrajin lokal dan internasional yang memiliki dedikasi terhadap material berkualitas tinggi dan praktik berkelanjutan. Ciptakan ruang yang menginspirasi kehidupan sehari-hari Anda.</p>
+                <div class="signature">Curated Haven Team</div>
+            </div>
+            <div class="about-img" data-aos="fade-left">
+                <img src="https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Minimalist Interior Design">
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials section-padding">
+        <h2 class="section-title" data-aos="fade-up">Loved By <span>Many</span></h2>
+        <div class="testi-grid">
+            <div class="testi-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testi-text">"Kualitas vas keramiknya luar biasa. Menjadi centerpiece yang sangat sempurna di meja makan saya. Pengiriman juga sangat aman."</p>
+                <p class="testi-author">Amanda R.</p>
+            </div>
+            <div class="testi-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testi-text">"Sangat suka dengan desain minimalis dari toko ini. Cushion linen-nya super lembut dan warnanya sangat cocok dengan sofa saya."</p>
+                <p class="testi-author">Kevin S.</p>
+            </div>
+            <div class="testi-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star-half-stroke"></i>
+                </div>
+                <p class="testi-text">"Pelayanan pelanggan yang sangat baik. Lampu meja yang saya pesan memberi ambience mewah yang pas untuk ruang kerja."</p>
+                <p class="testi-author">Nadia W.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter section-padding">
+        <div class="news-container" data-aos="zoom-in">
+            <h2>Join the Haven</h2>
+            <p>Berlangganan untuk mendapatkan akses eksklusif ke koleksi terbaru, tips dekorasi interior, dan diskon 10% untuk pesanan pertama Anda.</p>
+            <form class="news-form" onsubmit="event.preventDefault(); alert('Terima kasih telah berlangganan!');">
+                <input type="email" placeholder="Alamat email Anda..." required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col" data-aos="fade-up" data-aos-delay="100">
+                <h3 style="font-size: 1.5rem; color: var(--white); margin-bottom: 10px; text-transform: uppercase;">Curated Haven</h3>
+                <p>Elevating everyday living with mindful, minimalist design. Your sanctuary starts here.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-pinterest-p"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-col" data-aos="fade-up" data-aos-delay="200">
+                <h3>Shop</h3>
+                <ul>
+                    <li><a href="#">New Arrivals</a></li>
+                    <li><a href="#">Bestsellers</a></li>
+                    <li><a href="#">Furniture</a></li>
+                    <li><a href="#">Decor & Lighting</a></li>
+                </ul>
+            </div>
+            <div class="footer-col" data-aos="fade-up" data-aos-delay="300">
+                <h3>Customer Care</h3>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Shipping & Returns</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Care Guide</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Curated Haven. All rights reserved. | Crafted with elegance.</p>
+        </div>
+    </footer>
+
+    <!-- AOS JS (Animate On Scroll) -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- JavaScript Logika Dasar -->
+    <script>
+        // Inisialisasi AOS (Animate On Scroll)
+        AOS.init({
+            duration: 800,      // durasi animasi dalam ms
+            easing: 'ease-out', // gaya transisi
+            once: false,        // animasi akan selalu berjalan saat di-scroll up/down
+            mirror: true,       // elemen akan beranimasi keluar saat di-scroll melewati viewport
+            offset: 100         // jarak (px) sebelum elemen memicu animasi
+        });
+
+        // Logika Sticky Navbar berubah warna
+        const navbar = document.getElementById('navbar');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

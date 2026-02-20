@@ -16,12 +16,13 @@ const Header: React.FC<HeaderProps> = ({ isScrolled }) => {
     { name: 'Home', href: '/#home', isRouter: false },
     { name: 'Layanan', href: '/#layanan', isRouter: false },
     { name: 'Jasa Web', href: '/jasa-website', isRouter: true },
+    { name: 'Artikel', href: '/blog', isRouter: true },
     { name: 'Testimoni', href: '/#testimoni', isRouter: false },
     { name: 'FAQ', href: '/#faq', isRouter: false },
   ];
 
   const waLink = "https://wa.link/f9luhr";
-  const logoUrl = "https://i.imgur.com/jTcFEUr.png";
+  const logoUrl = "/asset/logo-lulusinkuy/logo-jasa-skripsi-tugas-website-lulusinkuy.png";
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

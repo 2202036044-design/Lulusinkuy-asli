@@ -7,23 +7,23 @@ const WebDevPage: React.FC = () => {
         {
             id: 1,
             title: 'Web Company Profile',
-            desc: 'Desain elegan untuk perusahaan.',
-            img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop',
-            link: '/company-profile/index.html'//
+            desc: 'Desain elegan untuk perusahaan dan instansi.',
+            img: '/asset/gambarpreviewporto/jasa-website-tugas-skripsi-lulusinkuy-company-profile.webp',
+            link: '/lulusinkuy-company-profile/index.html'//
         },
         {
             id: 2,
-            title: 'Toko Online UMKM',
+            title: 'Toko Online (e-commerce) Professional',
             desc: 'E-commerce responsif siap jualan.',
-            img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=1950&auto=format&fit=crop',
-            link: '#'
+            img: '/asset/gambarpreviewporto/jasa-website-tugas-skripsi-lulusinkuy-e-commerce.webp',
+            link: '/lulusinkuy-e-commerce/index.html'//
         },
         {
             id: 3,
-            title: 'Web Landing Page',
-            desc: 'Optimasi konversi untuk promosi.',
-            img: 'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=2070&auto=format&fit=crop',
-            link: '#'
+            title: 'Web Dashboard Professional',
+            desc: 'Optimasi pencatatan dan tracking data.',
+            img: '/asset/gambarpreviewporto/jasa-website-tugas-skripsi-lulusinkuy-dashboard-proffessional.webp',
+            link: '/lulusinkuy-dashboard/index.html'//
         }
     ];
 
@@ -57,7 +57,7 @@ const WebDevPage: React.FC = () => {
                             className="block group"
                         >
                             <div className="bg-[#12263F] rounded-[2rem] overflow-hidden border border-white/5 group-hover:border-[#1E90FF]/40 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl h-full flex flex-col">
-                                <div className="h-48 overflow-hidden relative">
+                                <div className="aspect-video overflow-hidden relative">
                                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
                                     <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                                 </div>

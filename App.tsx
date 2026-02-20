@@ -10,6 +10,8 @@ import MoreProof from './components/MoreProof';
 import Contact from './components/Contact';
 import SocialMedia from './components/SocialMedia';
 import ReviewModal from './components/ReviewModal';
+import BlogPage from './pages/BlogPage';
+import BlogDetail from './pages/BlogDetail';
 import WebDevPage from './components/WebDevPage';
 import { Mail, Phone, MapPin, Instagram, Music2, Facebook } from 'lucide-react';
 
@@ -60,6 +62,8 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home onReviewClick={() => setIsReviewModalOpen(true)} />} />
           <Route path="/jasa-website" element={<WebDevPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<BlogDetail />} />
         </Routes>
 
         <footer className="bg-[#050C1A] pt-20 pb-10 border-t border-white/10 relative overflow-hidden">
