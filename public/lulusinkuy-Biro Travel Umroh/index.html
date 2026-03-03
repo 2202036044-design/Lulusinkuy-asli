@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medina Tour & Travel | Menyempurnakan Niat, Menggapai Mabrur</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Modern Header Styles */
+        header {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .header-transparent {
+            background: transparent;
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+
+        .header-scrolled {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Reveal Animation Classes */
+        .reveal {
+            position: relative;
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal-left {
+            transform: translateX(-60px);
+        }
+
+        .reveal-right {
+            transform: translateX(60px);
+        }
+
+        .reveal-bottom {
+            transform: translateY(60px);
+        }
+
+        .reveal-top {
+            transform: translateY(-60px);
+        }
+
+        /* Animasi Aktif */
+        .reveal.active {
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+
+        /* Custom UI Elements */
+        .hero-overlay {
+            background: linear-gradient(to right, rgba(2, 44, 34, 0.85), rgba(2, 44, 34, 0.3));
+        }
+
+        .package-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .package-card:hover {
+            transform: translateY(-15px);
+        }
+
+        .btn-whatsapp {
+            background-color: #25D366;
+            transition: all 0.3s ease;
+        }
+
+        .btn-whatsapp:hover {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+
+        /* Navigation Underline Animation */
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: currentColor;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900">
+
+    <!-- 1. Header & Navigasi -->
+    <header id="main-header" class="fixed w-full z-50 header-transparent">
+        <nav class="container mx-auto px-6 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                    M</div>
+                <div class="flex flex-col">
+                    <span id="brand-name"
+                        class="text-xl font-extrabold text-white tracking-tight leading-none transition-colors">MEDINA</span>
+                    <span id="brand-sub"
+                        class="text-[10px] font-bold text-emerald-400 tracking-[0.2em] uppercase transition-colors">Tour
+                        & Travel</span>
+                </div>
+            </div>
+
+            <ul id="nav-links" class="hidden lg:flex items-center gap-8 font-semibold text-white transition-colors">
+                <li><a href="#beranda" class="nav-link">Beranda</a></li>
+                <li><a href="#tentang" class="nav-link">Tentang Kami</a></li>
+                <li><a href="#paket" class="nav-link">Paket Umrah</a></li>
+                <li><a href="#haji" class="nav-link">Haji Khusus</a></li>
+                <li><a href="#galeri" class="nav-link">Galeri</a></li>
+                <li><a href="#artikel" class="nav-link">Artikel</a></li>
+            </ul>
+
+            <div class="flex items-center gap-4">
+                <a href="https://wa.me/628123456789"
+                    class="hidden md:flex items-center gap-2 btn-whatsapp text-white px-6 py-3 rounded-2xl font-bold shadow-xl">
+                    <i class="fab fa-whatsapp text-xl"></i>
+                    <span>Konsultasi Gratis</span>
+                </a>
+                <button class="lg:hidden text-white" id="menu-toggle" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars text-2xl" id="menuIcon"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-white fixed inset-0 z-[60] p-8">
+            <div class="flex justify-between items-center mb-12">
+                <div class="flex items-center gap-2">
+                    <div
+                        class="w-8 h-8 bg-emerald-700 rounded-lg flex items-center justify-center text-white font-bold">
+                        M</div>
+                    <span class="text-xl font-bold text-emerald-900">Medina Tour</span>
+                </div>
+                <button onclick="toggleMobileMenu()" class="text-slate-900"><i
+                        class="fas fa-times text-2xl"></i></button>
+            </div>
+            <ul class="flex flex-col gap-6 font-bold text-2xl text-slate-800">
+                <li><a href="#beranda" onclick="toggleMobileMenu()">Beranda</a></li>
+                <li><a href="#tentang" onclick="toggleMobileMenu()">Tentang Kami</a></li>
+                <li><a href="#paket" onclick="toggleMobileMenu()">Paket Umrah</a></li>
+                <li><a href="#haji" onclick="toggleMobileMenu()">Haji Khusus</a></li>
+                <li><a href="#galeri" onclick="toggleMobileMenu()">Galeri</a></li>
+                <li><a href="#artikel" onclick="toggleMobileMenu()">Artikel</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- 2. Hero Banner -->
+    <section id="beranda" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=2070&auto=format&fit=crop"
+                alt="Mekkah" class="w-full h-full object-cover">
+            <div class="absolute inset-0 hero-overlay"></div>
+        </div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-4xl reveal reveal-left">
+                <span
+                    class="inline-block bg-emerald-500/20 text-emerald-300 px-5 py-2 rounded-full text-xs font-bold mb-8 border border-emerald-400/30 backdrop-blur-md uppercase tracking-widest">Penyelenggara
+                    Resmi Kemenag RI</span>
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-8 leading-[1.1]">Menyempurnakan
+                    Niat, <br><span class="text-emerald-400 italic">Menggapai Mabrur.</span></h1>
+                <p class="text-lg md:text-xl text-slate-200 mb-12 leading-relaxed max-w-2xl font-medium opacity-90">
+                    Wujudkan perjalanan ibadah Haji dan Umrah Anda dengan pelayanan eksklusif, fasilitas premium, dan
+                    bimbingan ibadah yang sesuai sunnah.</p>
+                <div class="flex flex-col sm:flex-row gap-5">
+                    <a href="#paket"
+                        class="bg-emerald-600 hover:bg-emerald-500 text-white px-10 py-5 rounded-2xl font-bold text-center transition shadow-2xl shadow-emerald-950/50 text-lg">Lihat
+                        Paket</a>
+                    <a href="https://wa.me/628123456789"
+                        class="bg-white/10 backdrop-blur-md text-white border border-white/20 px-10 py-5 rounded-2xl font-bold text-center hover:bg-white/20 transition text-lg">Hubungi
+                        Konsultan</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Profil & Tentang Kami -->
+    <section id="tentang" class="py-32 bg-white overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div class="relative reveal reveal-left">
+                    <div class="rounded-[40px] overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=2071&auto=format&fit=crop"
+                            alt="Umrah" class="w-full h-[600px] object-cover">
+                    </div>
+                    <div
+                        class="absolute -bottom-10 -right-10 bg-emerald-900 p-10 rounded-[32px] text-white hidden md:block max-w-xs shadow-2xl border-4 border-white z-20">
+                        <p class="text-4xl font-black mb-2 text-emerald-400">15+ Thn</p>
+                        <p class="text-sm font-bold opacity-80 uppercase tracking-wider">Melayani Tamu Allah</p>
+                    </div>
+                </div>
+                <div class="reveal reveal-right">
+                    <h2 class="text-emerald-700 font-bold uppercase tracking-widest text-sm mb-4">Tentang Medina Tour
+                    </h2>
+                    <h3 class="text-4xl md:text-5xl font-serif text-slate-900 mb-8 leading-tight">Berangkat Aman,
+                        <br><span class="text-emerald-600 italic">Ibadah Nyaman.</span>
+                    </h3>
+                    <p class="text-slate-600 text-lg mb-10 leading-relaxed">Medina Tour And Travel hadir sebagai biro
+                        perjalanan Haji dan Umrah resmi yang berkomitmen melayani tamu Allah dengan sepenuh hati. Kami
+                        mendampingi setiap langkah Anda, mulai dari persiapan di tanah air hingga kembali membawa
+                        predikat mabrur.</p>
+                    <div class="grid sm:grid-cols-2 gap-8">
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-sm">
+                                <i class="fas fa-file-contract"></i>
+                            </div>
+                            <div>
+                                <h6 class="font-bold">Izin Kemenag</h6>
+                                <p class="text-xs text-slate-500">PPIU No. 123/2026</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div
+                                class="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-sm">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div>
+                                <h6 class="font-bold">Anggota Resmi</h6>
+                                <p class="text-xs text-slate-500">AMPHURI No. 456</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Paket Pilihan -->
+    <section id="paket" class="py-32 bg-slate-50 overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20 reveal reveal-bottom">
+                <h2 class="text-4xl md:text-5xl font-serif mb-6 text-slate-900">Pilihan Perjalanan Suci</h2>
+                <div class="w-20 h-1.5 bg-emerald-500 mx-auto rounded-full"></div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-10">
+                <div class="bg-white rounded-[40px] overflow-hidden shadow-sm package-card reveal reveal-bottom">
+                    <img src="https://images.unsplash.com/photo-1519817650390-64a93db51149?q=80&w=1980&auto=format&fit=crop"
+                        class="h-64 w-full object-cover">
+                    <div class="p-10">
+                        <h4 class="text-2xl font-bold mb-4">Umrah Reguler</h4>
+                        <ul class="space-y-3 mb-10 text-slate-500 text-sm">
+                            <li><i class="fas fa-hotel text-emerald-500 mr-2"></i> Hotel Bintang 5 (Ring 1)</li>
+                            <li><i class="fas fa-plane text-emerald-500 mr-2"></i> Direct Flight</li>
+                        </ul>
+                        <p class="text-2xl font-black text-emerald-800">Rp 28.5 Jt</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-[40px] overflow-hidden shadow-sm package-card reveal reveal-bottom"
+                    style="transition-delay: 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=2071&auto=format&fit=crop"
+                        class="h-64 w-full object-cover">
+                    <div class="p-10">
+                        <h4 class="text-2xl font-bold mb-4">Umrah Plus Turki</h4>
+                        <ul class="space-y-3 mb-10 text-slate-500 text-sm">
+                            <li><i class="fas fa-mosque text-emerald-500 mr-2"></i> Wisata Religi Istanbul</li>
+                            <li><i class="fas fa-map text-emerald-500 mr-2"></i> City Tour Lengkap</li>
+                        </ul>
+                        <p class="text-2xl font-black text-emerald-800">Rp 35.9 Jt</p>
+                    </div>
+                </div>
+                <div id="haji"
+                    class="bg-emerald-950 text-white rounded-[40px] overflow-hidden shadow-2xl package-card reveal reveal-bottom"
+                    style="transition-delay: 0.4s;">
+                    <img src="https://images.unsplash.com/photo-1541410965313-d53b3c16ef17?q=80&w=1974&auto=format&fit=crop"
+                        class="h-64 w-full object-cover opacity-60">
+                    <div class="p-10">
+                        <h4 class="text-2xl font-bold mb-4">Haji Furoda</h4>
+                        <ul class="space-y-3 mb-10 text-emerald-100/70 text-sm">
+                            <li><i class="fas fa-star text-yellow-500 mr-2"></i> Tanpa Antre</li>
+                            <li><i class="fas fa-tent text-yellow-500 mr-2"></i> Maktab VIP</li>
+                        </ul>
+                        <button class="w-full bg-emerald-600 py-4 rounded-2xl font-bold">Cek Kuota</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Alur Pendaftaran -->
+    <section class="py-32 bg-white overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20 reveal reveal-bottom">
+                <h2 class="text-3xl md:text-5xl font-serif mb-6 text-slate-900">4 Langkah Menuju Baitullah</h2>
+                <div class="w-20 h-1.5 bg-emerald-500 mx-auto rounded-full"></div>
+            </div>
+            <div class="grid md:grid-cols-4 gap-12 text-center">
+                <div class="reveal reveal-bottom" style="transition-delay: 0.1s;">
+                    <div
+                        class="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-600 text-2xl font-bold mx-auto mb-6 shadow-xl">
+                        1</div>
+                    <h5 class="font-bold mb-2">Pilih Paket</h5>
+                    <p class="text-sm text-slate-500">Konsultasi jadwal & biaya</p>
+                </div>
+                <div class="reveal reveal-bottom" style="transition-delay: 0.2s;">
+                    <div
+                        class="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-600 text-2xl font-bold mx-auto mb-6 shadow-xl">
+                        2</div>
+                    <h5 class="font-bold mb-2">Dokumen</h5>
+                    <p class="text-sm text-slate-500">KTP, Paspor & Foto</p>
+                </div>
+                <div class="reveal reveal-bottom" style="transition-delay: 0.3s;">
+                    <div
+                        class="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-600 text-2xl font-bold mx-auto mb-6 shadow-xl">
+                        3</div>
+                    <h5 class="font-bold mb-2">Manasik</h5>
+                    <p class="text-sm text-slate-500">Bimbingan ibadah intensif</p>
+                </div>
+                <div class="reveal reveal-bottom" style="transition-delay: 0.4s;">
+                    <div
+                        class="w-20 h-20 bg-emerald-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6 shadow-xl">
+                        4</div>
+                    <h5 class="font-bold mb-2">Berangkat</h5>
+                    <p class="text-sm text-slate-500">Fokus ibadah, kami layani</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Fasilitas & Keunggulan -->
+    <section class="py-32 bg-emerald-900 text-white overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                <div class="reveal reveal-left">
+                    <h2 class="text-3xl md:text-5xl font-serif mb-10 leading-tight">Keistimewaan Pelayanan <span
+                            class="text-emerald-400">Medina</span></h2>
+                    <div class="space-y-10">
+                        <div class="flex gap-6">
+                            <div
+                                class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center border border-white/20 shadow-inner">
+                                <i class="fas fa-calendar-check text-2xl"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-xl mb-1">Kepastian Jadwal</h5>
+                                <p class="text-emerald-100/60 text-sm">Tiket & Kursi dibooking di awal.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6">
+                            <div
+                                class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center border border-white/20 shadow-inner">
+                                <i class="fas fa-hotel text-2xl"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-xl mb-1">Hotel Ring 1</h5>
+                                <p class="text-emerald-100/60 text-sm">Jarak sangat dekat dengan pelataran Masjid.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal reveal-right">
+                    <img src="https://images.unsplash.com/photo-1519817650390-64a93db51149?q=80&w=1980&auto=format&fit=crop"
+                        alt="Nabawi" class="rounded-[40px] shadow-2xl">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Galeri Masonry (Derapikan Kembali) -->
+    <section id="galeri" class="py-32 bg-white overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20 reveal reveal-bottom">
+                <h2 class="text-4xl md:text-5xl font-serif mb-6 text-slate-900">Jejak Langkah Mabrur</h2>
+                <p class="text-slate-500 text-lg">Keindahan momen ibadah jamaah Medina Tour di Tanah Suci.</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Kolom 1 -->
+                <div class="space-y-6 reveal reveal-left">
+                    <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=2071&auto=format&fit=crop"
+                        class="w-full h-64 object-cover rounded-[32px] shadow-lg hover:scale-105 transition duration-500"
+                        alt="Kaaba">
+                    <img src="https://images.unsplash.com/photo-1527549993586-dff825b37782?q=80&w=2070&auto=format&fit=crop"
+                        class="w-full h-80 object-cover rounded-[32px] shadow-lg hover:scale-105 transition duration-500"
+                        alt="Pilgrim">
+                </div>
+                <!-- Kolom 2 -->
+                <div class="space-y-6 pt-12 reveal reveal-bottom">
+                    <img src="https://images.unsplash.com/photo-1519817650390-64a93db51149?q=80&w=1980&auto=format&fit=crop"
+                        class="w-full h-80 object-cover rounded-[32px] shadow-lg hover:scale-105 transition duration-500"
+                        alt="Madinah">
+                    <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=2070&auto=format&fit=crop"
+                        class="w-full h-64 object-cover rounded-[32px] shadow-lg hover:scale-105 transition duration-500"
+                        alt="Mekkah">
+                </div>
+                <!-- Kolom 3 -->
+                <div class="space-y-6 reveal reveal-top">
+                    <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=2071&auto=format&fit=crop"
+                        class="w-full h-64 object-cover rounded-[32px] shadow-lg hover:scale-105 transition duration-500"
+                        alt="Ibadah">
+                    <img src="https://images.unsplash.com/photo-1519817650390-64a93db51149?q=80&w=1980&auto=format&fit=crop"
+                        class="w-full h-80 object-cover rounded-[32px] shadow-lg hover:scale-105 transition duration-500"
+                        alt="Mekkah Malam">
+                </div>
+                <!-- Kolom 4 -->
+                <div class="space-y-6 pt-12 reveal reveal-right">
+                    <img src="https://images.unsplash.com/photo-1519817650390-64a93db51149?q=80&w=1980&auto=format&fit=crop"
+                        class="w-full h-80 object-cover rounded-[32px] shadow-lg hover:scale-105 transition duration-500"
+                        alt="Cityscape">
+                    <div
+                        class="aspect-square bg-emerald-600 rounded-[32px] flex flex-col items-center justify-center text-white shadow-xl p-6 text-center">
+                        <p class="text-4xl font-black mb-1">5K+</p>
+                        <p class="text-[10px] font-bold uppercase tracking-widest leading-tight">Jamaah <br>Telah
+                            Berangkat</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. Artikel Terkini -->
+    <section id="artikel" class="py-32 bg-slate-50 overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20 reveal reveal-bottom">
+                <h2 class="text-4xl md:text-5xl font-serif mb-6 text-slate-900">Bekal Ilmu Ibadah</h2>
+                <p class="text-slate-500">Perdalam pengetahuan Anda sebelum menuju Tanah Suci.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-10">
+                <div
+                    class="bg-white rounded-[40px] overflow-hidden shadow-sm hover:shadow-xl transition-all group reveal reveal-bottom">
+                    <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=2070&auto=format&fit=crop"
+                        class="h-64 w-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="p-10">
+                        <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Panduan</span>
+                        <h4 class="text-xl font-bold mt-4 mb-6 leading-tight">Tata Cara Umrah Sesuai Sunnah Lengkap</h4>
+                        <a href="#"
+                            class="text-sm font-bold flex items-center gap-2 text-slate-400 group-hover:text-emerald-600 transition">Baca
+                            <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <!-- Artikel 2 & 3 Placeholder -->
+                <div class="bg-white rounded-[40px] overflow-hidden shadow-sm hover:shadow-xl transition-all group reveal reveal-bottom"
+                    style="transition-delay: 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=2070&auto=format&fit=crop"
+                        class="h-64 w-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="p-10">
+                        <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Tips</span>
+                        <h4 class="text-xl font-bold mt-4 mb-6 leading-tight">Perlengkapan Umrah Wajib Bagi Wanita</h4>
+                        <a href="#"
+                            class="text-sm font-bold flex items-center gap-2 text-slate-400 group-hover:text-emerald-600 transition">Baca
+                            <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-[40px] overflow-hidden shadow-sm hover:shadow-xl transition-all group reveal reveal-bottom"
+                    style="transition-delay: 0.4s;">
+                    <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=2070&auto=format&fit=crop"
+                        class="h-64 w-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="p-10">
+                        <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Wawasan</span>
+                        <h4 class="text-xl font-bold mt-4 mb-6 leading-tight">Keutamaan Shalat di Raudhah Madinah</h4>
+                        <a href="#"
+                            class="text-sm font-bold flex items-center gap-2 text-slate-400 group-hover:text-emerald-600 transition">Baca
+                            <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. Footer -->
+    <footer id="kontak" class="bg-slate-950 pt-32 pb-12 text-slate-400">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-4 gap-16 mb-24 reveal reveal-bottom">
+                <div>
+                    <div class="flex items-center gap-3 mb-8">
+                        <div
+                            class="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white font-bold text-xl">
+                            M</div>
+                        <span class="text-2xl font-black text-white tracking-tight">MEDINA</span>
+                    </div>
+                    <p class="text-sm leading-relaxed mb-8 opacity-70">Melayani ibadah Anda dengan standar
+                        profesionalitas tinggi dan bimbingan sesuai sunnah.</p>
+                    <div class="flex gap-4">
+                        <a href="#"
+                            class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center hover:bg-emerald-600 transition text-white"><i
+                                class="fab fa-instagram"></i></a>
+                        <a href="#"
+                            class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center hover:bg-emerald-600 transition text-white"><i
+                                class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h5 class="text-white font-bold mb-8 uppercase tracking-widest text-xs">Akses</h5>
+                    <ul class="space-y-4 text-sm font-medium">
+                        <li><a href="#beranda" class="hover:text-emerald-500">Beranda</a></li>
+                        <li><a href="#paket" class="hover:text-emerald-500">Paket Umrah</a></li>
+                        <li><a href="#galeri" class="hover:text-emerald-500">Galeri Foto</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-white font-bold mb-8 uppercase tracking-widest text-xs">Kontak</h5>
+                    <ul class="space-y-6 text-sm">
+                        <li class="flex gap-4"><i class="fas fa-map-marker-alt text-emerald-500 mt-1"></i> Gedung
+                            Medina, Jl. Kebahagiaan No. 45, Jakarta.</li>
+                        <li class="flex gap-4"><i class="fas fa-phone-alt text-emerald-500"></i> +62 812 3456 7890</li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-white font-bold mb-8 uppercase tracking-widest text-xs">Update</h5>
+                    <div class="relative">
+                        <input type="email" placeholder="Email Anda"
+                            class="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-emerald-500 transition text-white">
+                        <button
+                            class="absolute right-2 top-2 bottom-2 bg-emerald-600 text-white px-4 rounded-xl hover:bg-emerald-500 transition"><i
+                                class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="pt-12 border-t border-white/5 text-center text-[10px] font-bold tracking-widest uppercase opacity-40">
+                &copy; 2026 Medina Tour And Travel. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Fixed WhatsApp -->
+    <a href="https://wa.me/628123456789"
+        class="fixed bottom-8 right-8 w-16 h-16 btn-whatsapp text-white rounded-[24px] flex items-center justify-center text-3xl shadow-2xl z-50 hover:scale-110 active:scale-95 transition-all">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Header Scroll Interaction
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById('main-header');
+            const navLinks = document.getElementById('nav-links');
+            const brandName = document.getElementById('brand-name');
+            const brandSub = document.getElementById('brand-sub');
+            const menuToggle = document.getElementById('menu-toggle');
+
+            if (window.scrollY > 100) {
+                header.classList.remove('header-transparent');
+                header.classList.add('header-scrolled');
+                navLinks?.classList.replace('text-white', 'text-slate-800');
+                brandName?.classList.replace('text-white', 'text-emerald-950');
+                brandSub?.classList.replace('text-emerald-400', 'text-emerald-600');
+                menuToggle?.classList.replace('text-white', 'text-emerald-900');
+            } else {
+                header.classList.add('header-transparent');
+                header.classList.remove('header-scrolled');
+                navLinks?.classList.replace('text-slate-800', 'text-white');
+                brandName?.classList.replace('text-emerald-950', 'text-white');
+                brandSub?.classList.replace('text-emerald-600', 'text-emerald-400');
+                menuToggle?.classList.replace('text-emerald-900', 'text-white');
+            }
+        });
+
+        // RE-TRIGGER REVEAL ANIMATION (ON SCROLL UP & DOWN)
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Masuk area pandang: tambah class active
+                    entry.target.classList.add('active');
+                } else {
+                    // Keluar area pandang: hapus class active agar bisa dianimasikan ulang
+                    entry.target.classList.remove('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>

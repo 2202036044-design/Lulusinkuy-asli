@@ -46,6 +46,27 @@ const WebDevPage: React.FC = () => {
             img: '/asset/gambarpreviewporto/jasa-website-tugas-skripsi-lulusinkuy-bussines-services.webp',
             link: '/lulusinkuy-bussines-and-services/index.html'
         },
+        {
+            id: 7,
+            title: 'Web Product Katalog and Auto Chekout',
+            desc: 'Optimasi Jualan produkmu dengan fitur chekout langsung.',
+            img: '/asset/gambarpreviewporto/Baualam.jpg',
+            link: 'https://sumberberkahbatualam.lulusinkuy.com/'
+        },
+        {
+            id: 8,
+            title: 'Web Biro Travel dan Wisata Halal (Umroh/haji)',
+            desc: 'Buat jalon jamaah anda terpukau dengan keindahan di tanah suci lewat website modern.',
+            img: '/asset/gambarpreviewporto/Medina.jpg',
+            link: '/lulusinkuy-Biro Travel Umroh/index.html'
+        },
+        {
+            id: 9,
+            title: 'Web Sewa Mobil/travel',
+            desc: 'Otomasikan pemesanan sewa sewa mobilmu lewat landing page interaktif.',
+            img: '/asset/gambarpreviewporto/Rent.jpg',
+            link: '/lulusinkuy-sewa mobil/index.html'
+        }
     ];
 
     return (
@@ -66,7 +87,7 @@ const WebDevPage: React.FC = () => {
                     </p>
                 </div>
 
-                <h2 className="text-2xl md:text-4xl font-bold mb-8 text-white border-b border-white/10 pb-4">Hasil Proyek Kami</h2>
+                <h2 className="text-2xl md:text-4xl font-bold mb-8 text-white border-b border-white/10 pb-4">Portofolio Kami</h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {portfolios.map((item) => (
