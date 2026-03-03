@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import Header from './components/Header';
+
 import Hero from './components/Hero';
 import Services from './components/Services';
 import Testimonials from './components/Testimonials';
@@ -17,17 +19,24 @@ import { Mail, Phone, MapPin, Instagram, Music2, Facebook } from 'lucide-react';
 
 // Ini komponen buat ngebungkus halaman Home
 const Home = ({ onReviewClick }: { onReviewClick: () => void }) => (
-  <main>
-    <Hero />
-    <SocialMedia />
-    <Services onReviewClick={onReviewClick} />
-    <Testimonials />
-    <MoreProof />
-    <AISkripsi />
-    <FAQ />
-    <Contact />
-  </main>
+  <>
+    <Helmet>
+      <title>Lulusin Kuy - Partner Akademik Terpercaya Mahasiswa Indonesia</title>
+      <meta name="description" content="Lulusin Kuy adalah partner akademik terpercaya mahasiswa Indonesia sejak 2022. Kami menyediakan jasa pembuatan website, bantuan skripsi, dan layanan akademik lainnya." />
+    </Helmet>
+    <main>
+      <Hero />
+      <SocialMedia />
+      <Services onReviewClick={onReviewClick} />
+      <Testimonials />
+      <MoreProof />
+      <AISkripsi />
+      <FAQ />
+      <Contact />
+    </main>
+  </>
 );
+
 
 const App: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
