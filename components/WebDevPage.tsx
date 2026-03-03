@@ -75,7 +75,21 @@ const WebDevPage: React.FC = () => {
         <>
             <Helmet>
                 <title>Jasa Pembuatan Website Profesional - Lulusin Kuy</title>
-                <meta name="description" content="Layanan jasa pembuatan website landing page, company profile, dan e-commerce terbaik untuk bisnis anda." />
+                <meta name="description" content="Solusi pembuatan website landing page, company profile, dan e-commerce untuk bisnis Anda." />
+
+                {/* Open Graph / Facebook */}
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://lulusinkuy.com/jasa-website" />
+                <meta property="og:title" content="Jasa Pembuatan Website Profesional - Lulusin Kuy" />
+                <meta property="og:description" content="Solusi pembuatan website landing page, company profile, dan e-commerce untuk bisnis Anda." />
+                <meta property="og:image" content="https://lulusinkuy.com/asset/gambarpreviewporto/jasa-website-tugas-skripsi-lulusinkuy-portofolio.webp" />
+
+                {/* Twitter */}
+                <meta property="twitter:card" content="summary_large_image" />
+                <meta property="twitter:url" content="https://lulusinkuy.com/jasa-website" />
+                <meta property="twitter:title" content="Jasa Pembuatan Website Profesional - Lulusin Kuy" />
+                <meta property="twitter:description" content="Solusi pembuatan website landing page, company profile, dan e-commerce untuk bisnis Anda." />
+                <meta property="twitter:image" content="https://lulusinkuy.com/asset/gambarpreviewporto/jasa-website-tugas-skripsi-lulusinkuy-portofolio.webp" />
             </Helmet>
             <section className="py-24 bg-[#0A1931] min-h-screen relative overflow-hidden">
 
