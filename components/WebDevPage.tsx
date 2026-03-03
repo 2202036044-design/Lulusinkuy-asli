@@ -48,15 +48,15 @@ const WebDevPage: React.FC = () => {
         },
         {
             id: 7,
-            title: 'Web Product Katalog and Auto Chekout',
-            desc: 'Optimasi Jualan produkmu dengan fitur chekout langsung.',
+            title: 'Web Product Katalog and Auto Checkout',
+            desc: 'Optimasi Jualan produkmu dengan fitur checkout langsung.',
             img: '/asset/gambarpreviewporto/Baualam.jpg',
             link: 'https://sumberberkahbatualam.lulusinkuy.com/'
         },
         {
             id: 8,
             title: 'Web Biro Travel dan Wisata Halal (Umroh/haji)',
-            desc: 'Buat jalon jamaah anda terpukau dengan keindahan di tanah suci lewat website modern.',
+            desc: 'Buat calon jamaah anda terpukau dengan keindahan di tanah suci lewat website modern.',
             img: '/asset/gambarpreviewporto/Medina.jpg',
             link: '/lulusinkuy-Biro Travel Umroh/index.html'
         },
